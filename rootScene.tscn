@@ -26,7 +26,6 @@
 [ext_resource type="Texture2D" uid="uid://dmq735w2c1lok" path="res://anims/attack/sword/side/sword_side3.png" id="23_yb61f"]
 [ext_resource type="Texture2D" uid="uid://cq8quvw7ax5cj" path="res://anims/attack/sword/side/sword_side4.png" id="24_fvxxc"]
 [ext_resource type="Texture2D" uid="uid://dclk7cwugbnaw" path="res://anims/attack/sword/side/sword_side5.png" id="25_apwv2"]
-[ext_resource type="Script" uid="uid://boesafedj3qun" path="res://sword_side.gd" id="26_h0eri"]
 [ext_resource type="Texture2D" uid="uid://cfifqvecf72x1" path="res://anims/attack/sword/down/sword_down1.png" id="26_xp2pc"]
 [ext_resource type="Texture2D" uid="uid://dmkf5o86akygh" path="res://anims/attack/sword/down/sword_down2.png" id="27_5777m"]
 [ext_resource type="Texture2D" uid="uid://bv2y5632ptswe" path="res://anims/attack/sword/down/sword_down3.png" id="28_l6b6m"]
@@ -34,7 +33,6 @@
 [ext_resource type="Script" uid="uid://brpw6ea8ohujk" path="res://enemy.gd" id="29_yb61f"]
 [ext_resource type="Texture2D" uid="uid://bliqv2ahjmdft" path="res://anims/attack/sword/down/sword_down5.png" id="30_jby34"]
 [ext_resource type="Texture2D" uid="uid://d4ct830xrj0w4" path="res://anims/attack/sword/down/sword_down6.png" id="31_h5g10"]
-[ext_resource type="Script" uid="uid://c8h1elr6woon" path="res://sword_neutral.gd" id="33_5777m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jukud"]
 size = Vector2(16, 41)
@@ -56,22 +54,34 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("sword_side/sword_side:disabled")
+tracks/1/path = NodePath("Sprite2D/sword_side/sword_side:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("sword_neutral/sword_neutral:disabled")
+tracks/2/path = NodePath("Sprite2D/sword_neutral/sword_neutral:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/sword_down/sword_down:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -160,9 +170,37 @@ tracks/0/keys = {
 "values": [ExtResource("4_pcupu"), ExtResource("5_s4ic7"), ExtResource("6_edk3o"), ExtResource("7_u8f6x"), ExtResource("8_x4pri"), ExtResource("9_2lbix"), ExtResource("10_v60i4"), ExtResource("11_fuw8l")]
 }
 
+[sub_resource type="Animation" id="Animation_hvevt"]
+resource_name = "sword_down"
+length = 0.55
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("26_xp2pc"), ExtResource("27_5777m"), ExtResource("28_l6b6m"), ExtResource("29_0qtlc"), ExtResource("30_jby34"), ExtResource("31_h5g10")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/sword_down/sword_down:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
 [sub_resource type="Animation" id="Animation_kuxmf"]
 resource_name = "sword_neutral"
-length = 0.8
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -178,7 +216,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("sword_neutral/sword_neutral:disabled")
+tracks/1/path = NodePath("Sprite2D/sword_neutral/sword_neutral:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -190,7 +228,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_lluh6"]
 resource_name = "sword_side"
-length = 0.5
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -206,7 +244,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("sword_side/sword_side:disabled")
+tracks/1/path = NodePath("Sprite2D/sword_side/sword_side:disabled")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -214,22 +252,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
-}
-
-[sub_resource type="Animation" id="Animation_hvevt"]
-resource_name = "sword_down"
-length = 0.7
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("26_xp2pc"), ExtResource("27_5777m"), ExtResource("28_l6b6m"), ExtResource("29_0qtlc"), ExtResource("30_jby34"), ExtResource("31_h5g10")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_25phc"]
@@ -245,12 +267,14 @@ _data = {
 &"sword_side": SubResource("Animation_lluh6")
 }
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qdghe"]
-radius = 10.5114
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xp2pc"]
 radius = 17.8045
 height = 36.8458
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qdghe"]
+radius = 10.5114
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0qtlc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f43kg"]
 size = Vector2(751, 41)
@@ -258,18 +282,19 @@ size = Vector2(751, 41)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ieqn2"]
 size = Vector2(48, 48)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lluh6"]
+size = Vector2(4, 105)
+
 [node name="Node2D" type="Node2D"]
 
 [node name="karakter" type="CharacterBody2D" parent="."]
+position = Vector2(1, 12)
+collision_mask = 4
 script = ExtResource("1_f43kg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="karakter"]
 position = Vector2(44, 72.5)
 shape = SubResource("RectangleShape2D_jukud")
-
-[node name="Camera2D" type="Camera2D" parent="karakter"]
-position = Vector2(46, 48)
-zoom = Vector2(1.52, 1.52)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="karakter"]
 
@@ -289,27 +314,43 @@ libraries = {
 [node name="Sprite2D" type="Sprite2D" parent="karakter"]
 position = Vector2(45, 29)
 
-[node name="sword_side" type="Area2D" parent="karakter"]
+[node name="sword_neutral" type="Area2D" parent="karakter/Sprite2D"]
+position = Vector2(-45, -29)
+collision_layer = 3
 collision_mask = 3
-script = ExtResource("26_h0eri")
 
-[node name="sword_side" type="CollisionShape2D" parent="karakter/sword_side"]
-position = Vector2(43, 78)
-scale = Vector2(3.52, -0.525455)
-shape = SubResource("CapsuleShape2D_qdghe")
-
-[node name="sword_neutral" type="Area2D" parent="karakter"]
-collision_mask = 3
-script = ExtResource("33_5777m")
-
-[node name="sword_neutral" type="CollisionShape2D" parent="karakter/sword_neutral"]
+[node name="sword_neutral" type="CollisionShape2D" parent="karakter/Sprite2D/sword_neutral"]
 position = Vector2(67, 62)
 rotation = 0.666716
-scale = Vector2(1.72094, 0.463027)
+scale = Vector2(1.721, 0.463)
 shape = SubResource("CapsuleShape2D_xp2pc")
 disabled = true
 
+[node name="sword_side" type="Area2D" parent="karakter/Sprite2D"]
+position = Vector2(-45, -29)
+collision_layer = 3
+collision_mask = 3
+
+[node name="sword_side" type="CollisionShape2D" parent="karakter/Sprite2D/sword_side"]
+position = Vector2(43, 78)
+scale = Vector2(3.52, -0.525455)
+shape = SubResource("CapsuleShape2D_qdghe")
+disabled = true
+
+[node name="sword_down" type="Area2D" parent="karakter/Sprite2D"]
+position = Vector2(-45, -29)
+collision_layer = 3
+collision_mask = 3
+
+[node name="sword_down" type="CollisionShape2D" parent="karakter/Sprite2D/sword_down"]
+position = Vector2(41, 71)
+rotation = -0.380482
+scale = Vector2(0.903436, 1.52)
+shape = SubResource("CapsuleShape2D_0qtlc")
+disabled = true
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 4
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
 offset_left = -13.0
@@ -325,7 +366,7 @@ shape = SubResource("RectangleShape2D_f43kg")
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 position = Vector2(236, 78)
 collision_layer = 2
-collision_mask = 3
+collision_mask = 6
 script = ExtResource("29_yb61f")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
@@ -335,6 +376,23 @@ shape = SubResource("RectangleShape2D_ieqn2")
 scale = Vector2(0.4, 0.4)
 texture = ExtResource("1_s87u8")
 
+[node name="hurt" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurt"]
+position = Vector2(386, 59.5)
+shape = SubResource("RectangleShape2D_lluh6")
+
+[node name="Sprite2D" type="Sprite2D" parent="hurt"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(386, 60)
+scale = Vector2(0.028657, 0.834609)
+texture = ExtResource("1_s87u8")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(388, -58)
+
 [connection signal="animation_finished" from="karakter/AnimationPlayer" to="karakter" method="_on_animation_player_animation_finished"]
-[connection signal="body_entered" from="karakter/sword_side" to="karakter/sword_side" method="_on_body_entered"]
-[connection signal="body_entered" from="karakter/sword_neutral" to="karakter/sword_neutral" method="_on_body_entered"]
+[connection signal="body_entered" from="karakter/Sprite2D/sword_neutral" to="karakter" method="_sword_neutral_hit"]
+[connection signal="body_entered" from="karakter/Sprite2D/sword_side" to="karakter" method="_sword_side_hit"]
+[connection signal="body_entered" from="karakter/Sprite2D/sword_down" to="karakter" method="sword_down_hit"]
+[connection signal="body_entered" from="hurt" to="karakter" method="_on_hurt_body_entered"]
