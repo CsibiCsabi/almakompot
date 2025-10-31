@@ -23,8 +23,8 @@ var facingLeft
 var hurtable = true
 #dash
 var canDash = true
-var horizontalDashForce = 400
-var verticalDashForce = 200
+var horizontalDashForce = 600
+var verticalDashForce = 300
 var dashCooldown = 0.8
 var horizontal
 var vertical
@@ -35,6 +35,7 @@ var canAttack = true;
 var hitSomething = false
 var attackCooldown = 0.2
 var missPunish = 0.2
+var going_on
 
 func _physics_process(delta: float) -> void:
 	$CanvasLayer/Label.text = "ALMA: " + str(coins)
@@ -68,7 +69,6 @@ func _physics_process(delta: float) -> void:
 	
 	#State Update
 	update_state(direction)
-	
 	move_and_slide()
 
 	
@@ -97,18 +97,29 @@ func change_state(new_state: PlayerState, anim_name: String):
 	anim_player.play(anim_name)
 
 func attack() -> void:
-	canMove = false
+	
+	going_on = velocity.x
 	canAttack = false
 	currentState = PlayerState.Attack
 	#nagyon utalom ezt az egeszet
 	#get attack type (neutral, side, down, air?)
-	if Input.is_action_pressed("p1down"):
-		attackType = "down"
-		print("alma")
-	elif Input.is_action_pressed("p1side"):
-		attackType = "side"
+	if is_on_floor():
+		canMove = false
+		if Input.is_action_pressed("p1down"):
+			attackType = "down"
+		elif Input.is_action_pressed("p1side"):
+			attackType = "side"
+		else:
+			attackType = "neutral"
 	else:
-		attackType = "neutral"
+		if Input.is_action_pressed("p1up"):
+			attackType = "nair"
+		elif Input.is_action_pressed("p1down"):
+			attackType = "down"
+		elif Input.is_action_pressed("p1side"):
+			attackType = "side"
+		else:
+			attackType = "nair"
 	print(weapon+"_"+attackType)
 	anim_player.play(weapon+"_"+attackType)
 
@@ -119,13 +130,15 @@ func attacking()->void:
 		"sword_side":
 			if 0.2 < t and t < 0.3:
 				velocity.x = (-1 if facingLeft else 1) * 400
-	move_and_slide()
+		"sword_nair":
+			if 0.15 < t and t < 0.25:
+				velocity.y = -200
+
+
 
 func dash_move()->void:
 	velocity.x = horizontal * horizontalDashForce
 	velocity.y = vertical * verticalDashForce
-	 
-	move_and_slide()
 
 func dash(direction) -> void:
 	canDash = false
@@ -156,7 +169,7 @@ func dash(direction) -> void:
 	canDash = true
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if hitSomething:
+	if hitSomething or attackType == "nair":
 		canMove = true
 		canAttack = true
 	else:

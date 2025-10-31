@@ -475,6 +475,9 @@ rotation = -0.427818
 shape = SubResource("CapsuleShape2D_hkyhe")
 disabled = true
 
+[node name="Camera2D" type="Camera2D" parent="karakter"]
+zoom = Vector2(1.61, 1.61)
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 4
 
