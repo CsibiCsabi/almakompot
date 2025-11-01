@@ -12,4 +12,5 @@ func _physics_process(delta: float) -> void:
 func hit(dmg: int, force: Vector2)->void:
 	velocity = force
 	hp-= dmg
+	print("I've been hit")
 	return

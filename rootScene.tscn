@@ -240,6 +240,58 @@ tracks/1/keys = {
 "values": [false, true]
 }
 
+[sub_resource type="Animation" id="Animation_jkv08"]
+resource_name = "sword_nair"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("32_h5g10"), ExtResource("33_hvevt"), ExtResource("34_6hcr0"), ExtResource("35_oghc2"), ExtResource("36_6ry61"), ExtResource("37_m5h2e")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/sword_nair/1:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 0.266667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/sword_nair/2:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.233333, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/sword_nair/3:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
 [sub_resource type="Animation" id="Animation_kuxmf"]
 resource_name = "sword_neutral"
 length = 0.6
@@ -296,58 +348,6 @@ tracks/1/keys = {
 "values": [false, true]
 }
 
-[sub_resource type="Animation" id="Animation_jkv08"]
-resource_name = "sword_nair"
-length = 0.45
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.25, 0.3, 0.35),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("32_h5g10"), ExtResource("33_hvevt"), ExtResource("34_6hcr0"), ExtResource("35_oghc2"), ExtResource("36_6ry61"), ExtResource("37_m5h2e")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D/sword_nair/1:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.266667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D/sword_nair/2:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0.233333, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Sprite2D/sword_nair/3:disabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0.3, 0.35),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_25phc"]
 _data = {
 &"RESET": SubResource("Animation_sxpvs"),
@@ -393,18 +393,19 @@ size = Vector2(4, 105)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="karakter" type="CharacterBody2D" parent="."]
+[node name="p1" type="CharacterBody2D" parent="."]
 position = Vector2(1, 12)
 collision_mask = 4
 script = ExtResource("1_f43kg")
+color = Color(0.87451, 0.14902, 0.145098, 1)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="karakter"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="p1"]
 position = Vector2(44, 72.5)
 shape = SubResource("RectangleShape2D_jukud")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="karakter"]
+[node name="CanvasLayer" type="CanvasLayer" parent="p1"]
 
-[node name="Label" type="Label" parent="karakter/CanvasLayer"]
+[node name="Label" type="Label" parent="p1/CanvasLayer"]
 offset_left = 19.0
 offset_top = 261.0
 offset_right = 68.0
@@ -412,64 +413,141 @@ offset_bottom = 310.0
 text = "ALMA:
 "
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="karakter"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="p1"]
 libraries = {
 &"": SubResource("AnimationLibrary_25phc")
 }
 
-[node name="Sprite2D" type="Sprite2D" parent="karakter"]
+[node name="Sprite2D" type="Sprite2D" parent="p1"]
 position = Vector2(45, 29)
 
-[node name="sword_neutral" type="Area2D" parent="karakter/Sprite2D"]
+[node name="sword_neutral" type="Area2D" parent="p1/Sprite2D"]
 position = Vector2(-45, -29)
 collision_layer = 3
 collision_mask = 3
 
-[node name="sword_neutral" type="CollisionShape2D" parent="karakter/Sprite2D/sword_neutral"]
+[node name="sword_neutral" type="CollisionShape2D" parent="p1/Sprite2D/sword_neutral"]
 position = Vector2(67, 62)
 rotation = 0.666716
 scale = Vector2(1.721, 0.463)
 shape = SubResource("CapsuleShape2D_xp2pc")
 disabled = true
 
-[node name="sword_side" type="Area2D" parent="karakter/Sprite2D"]
+[node name="sword_side" type="Area2D" parent="p1/Sprite2D"]
 position = Vector2(-45, -29)
 collision_layer = 3
 collision_mask = 3
 
-[node name="sword_side" type="CollisionShape2D" parent="karakter/Sprite2D/sword_side"]
+[node name="sword_side" type="CollisionShape2D" parent="p1/Sprite2D/sword_side"]
 position = Vector2(43, 78)
 scale = Vector2(3.52, -0.525455)
 shape = SubResource("CapsuleShape2D_qdghe")
 disabled = true
 
-[node name="sword_down" type="Area2D" parent="karakter/Sprite2D"]
+[node name="sword_down" type="Area2D" parent="p1/Sprite2D"]
 position = Vector2(-45, -29)
 collision_layer = 3
 collision_mask = 3
 
-[node name="sword_down" type="CollisionShape2D" parent="karakter/Sprite2D/sword_down"]
+[node name="sword_down" type="CollisionShape2D" parent="p1/Sprite2D/sword_down"]
 position = Vector2(41, 71)
 rotation = -0.380482
 scale = Vector2(0.903436, 1.52)
 shape = SubResource("CapsuleShape2D_0qtlc")
 disabled = true
 
-[node name="sword_nair" type="Area2D" parent="karakter/Sprite2D"]
+[node name="sword_nair" type="Area2D" parent="p1/Sprite2D"]
+collision_mask = 3
 
-[node name="1" type="CollisionShape2D" parent="karakter/Sprite2D/sword_nair"]
+[node name="1" type="CollisionShape2D" parent="p1/Sprite2D/sword_nair"]
 position = Vector2(9, 48)
 rotation = 1.2799
 scale = Vector2(1, 1.28728)
 shape = SubResource("CapsuleShape2D_8iorj")
 disabled = true
 
-[node name="2" type="CollisionShape2D" parent="karakter/Sprite2D/sword_nair"]
+[node name="2" type="CollisionShape2D" parent="p1/Sprite2D/sword_nair"]
 position = Vector2(4, 30)
 shape = SubResource("ConvexPolygonShape2D_sw22d")
 disabled = true
 
-[node name="3" type="CollisionShape2D" parent="karakter/Sprite2D/sword_nair"]
+[node name="3" type="CollisionShape2D" parent="p1/Sprite2D/sword_nair"]
+position = Vector2(11, 30)
+rotation = -0.427818
+shape = SubResource("CapsuleShape2D_hkyhe")
+disabled = true
+
+[node name="p2" type="CharacterBody2D" parent="."]
+position = Vector2(82, 3)
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("1_f43kg")
+color = Color(0.0941176, 0.180392, 0.882353, 1)
+player_id = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="p2"]
+position = Vector2(44, 72.5)
+shape = SubResource("RectangleShape2D_jukud")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="p2"]
+libraries = {
+&"": SubResource("AnimationLibrary_25phc")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="p2"]
+position = Vector2(45, 29)
+
+[node name="sword_neutral" type="Area2D" parent="p2/Sprite2D"]
+position = Vector2(-45, -29)
+collision_layer = 3
+collision_mask = 3
+
+[node name="sword_neutral" type="CollisionShape2D" parent="p2/Sprite2D/sword_neutral"]
+position = Vector2(67, 62)
+rotation = 0.666716
+scale = Vector2(1.721, 0.463)
+shape = SubResource("CapsuleShape2D_xp2pc")
+disabled = true
+
+[node name="sword_side" type="Area2D" parent="p2/Sprite2D"]
+position = Vector2(-45, -29)
+collision_layer = 3
+collision_mask = 3
+
+[node name="sword_side" type="CollisionShape2D" parent="p2/Sprite2D/sword_side"]
+position = Vector2(43, 78)
+scale = Vector2(3.52, -0.525455)
+shape = SubResource("CapsuleShape2D_qdghe")
+disabled = true
+
+[node name="sword_down" type="Area2D" parent="p2/Sprite2D"]
+position = Vector2(-45, -29)
+collision_layer = 3
+collision_mask = 3
+
+[node name="sword_down" type="CollisionShape2D" parent="p2/Sprite2D/sword_down"]
+position = Vector2(41, 71)
+rotation = -0.380482
+scale = Vector2(0.903436, 1.52)
+shape = SubResource("CapsuleShape2D_0qtlc")
+disabled = true
+
+[node name="sword_nair" type="Area2D" parent="p2/Sprite2D"]
+collision_mask = 3
+
+[node name="1" type="CollisionShape2D" parent="p2/Sprite2D/sword_nair"]
+position = Vector2(9, 48)
+rotation = 1.2799
+scale = Vector2(1, 1.28728)
+shape = SubResource("CapsuleShape2D_8iorj")
+disabled = true
+
+[node name="2" type="CollisionShape2D" parent="p2/Sprite2D/sword_nair"]
+position = Vector2(4, 30)
+shape = SubResource("ConvexPolygonShape2D_sw22d")
+disabled = true
+
+[node name="3" type="CollisionShape2D" parent="p2/Sprite2D/sword_nair"]
 position = Vector2(11, 30)
 rotation = -0.427818
 shape = SubResource("CapsuleShape2D_hkyhe")
@@ -517,8 +595,14 @@ texture = ExtResource("1_s87u8")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(388, -58)
 
-[connection signal="animation_finished" from="karakter/AnimationPlayer" to="karakter" method="_on_animation_player_animation_finished"]
-[connection signal="body_entered" from="karakter/Sprite2D/sword_neutral" to="karakter" method="_sword_neutral_hit"]
-[connection signal="body_entered" from="karakter/Sprite2D/sword_side" to="karakter" method="_sword_side_hit"]
-[connection signal="body_entered" from="karakter/Sprite2D/sword_down" to="karakter" method="sword_down_hit"]
-[connection signal="body_entered" from="hurt" to="karakter" method="_on_hurt_body_entered"]
+[connection signal="animation_finished" from="p1/AnimationPlayer" to="p1" method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="p1/Sprite2D/sword_neutral" to="p1" method="_sword_neutral_hit"]
+[connection signal="body_entered" from="p1/Sprite2D/sword_side" to="p1" method="_sword_side_hit"]
+[connection signal="body_entered" from="p1/Sprite2D/sword_down" to="p1" method="sword_down_hit"]
+[connection signal="body_entered" from="p1/Sprite2D/sword_nair" to="p1" method="sword_nair_hit"]
+[connection signal="animation_finished" from="p2/AnimationPlayer" to="p2" method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="p2/Sprite2D/sword_neutral" to="p2" method="_sword_neutral_hit"]
+[connection signal="body_entered" from="p2/Sprite2D/sword_side" to="p2" method="_sword_side_hit"]
+[connection signal="body_entered" from="p2/Sprite2D/sword_down" to="p2" method="sword_down_hit"]
+[connection signal="body_entered" from="p2/Sprite2D/sword_nair" to="p2" method="sword_nair_hit"]
+[connection signal="body_entered" from="hurt" to="p1" method="_on_hurt_body_entered"]

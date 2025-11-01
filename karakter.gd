@@ -6,12 +6,27 @@ var currentState: PlayerState;
 
 func _ready() -> void:
 	change_state(PlayerState.Idle, "idle")
-	add_to_group("player1")
+	add_to_group("player"+str(player_id))
+	inputBuffers = {
+	("p"+str(player_id)+"attack") : 0.0,
+	("p"+str(player_id)+"dash") : 0.0,
+	("p"+str(player_id)+"jump") : 0.0
+	}
+	sprite.self_modulate = color
+	#controllers
+	var controllers = Input.get_connected_joypads()
+	print(controllers)
+	if controllers.size() >= player_id:
+		controller_id = controllers[player_id-1] 
+		print("lett connectelve")
 
-
+@export var color = Color.WHITE
+@export var coins = 0
+@export var player_id = 1
+var controller_id = -1
 @onready var anim_player = $AnimationPlayer
 @onready var sprite = $Sprite2D
-@export var coins = 0
+
 var speed = 400
 const JUMP_VELOCITY = -300.0
 var canMove = true
@@ -35,10 +50,29 @@ var canAttack = true;
 var hitSomething = false
 var attackCooldown = 0.2
 var missPunish = 0.2
-var going_on
+var attack_buffer = 0
+var input_buffer_time = 0.2
+
+var inputBuffers = {}
+func _input(event):
+	if controller_id != -1:
+		print("contit vizsgalunk")
+		if Input.is_joy_button_pressed(controller_id, JOY_BUTTON_X):
+			inputBuffers["p"+str(player_id)+"attack"] = input_buffer_time
+		if Input.is_joy_button_pressed(controller_id, JOY_BUTTON_A):
+			inputBuffers["p"+str(player_id)+"jump"] = input_buffer_time
+		if Input.is_joy_button_pressed(controller_id, JOY_BUTTON_B):
+			inputBuffers["p"+str(player_id)+"dash"] = input_buffer_time
+	else:
+		for i in inputBuffers.keys():
+			if event.is_action_pressed(i):
+				inputBuffers[i] = input_buffer_time
 
 func _physics_process(delta: float) -> void:
-	$CanvasLayer/Label.text = "ALMA: " + str(coins)
+	for key in inputBuffers.keys():
+		if inputBuffers[key] > 0:
+			inputBuffers[key] -= delta
+	
 	# Add the gravity.
 	if not is_on_floor() and currentState != PlayerState.Dash:
 		velocity += get_gravity() * delta
@@ -46,15 +80,21 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		jumpCount = 0
 	# Handle jump.
-	if Input.is_action_just_pressed("p1jump") and jumpCount < maxJumps and currentState != PlayerState.Attack:
+	if inputBuffers["p"+str(player_id)+"jump"] > 0 and jumpCount < maxJumps and currentState != PlayerState.Attack:
+		inputBuffers["p"+str(player_id)+"jump"] = 0
 		velocity.y = JUMP_VELOCITY
 		jumpCount+=1
 	
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("p1left", "p1right")
-	if canDash and Input.is_action_just_pressed("p1dash") and currentState != PlayerState.Dash and currentState != PlayerState.Attack:
+	var direction = 0
+	if controller_id != -1:
+		direction = Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_X)
+	else:
+		direction = Input.get_axis("p"+str(player_id)+"left", "p"+str(player_id)+"right")
+	if canDash and inputBuffers["p"+str(player_id)+"dash"] > 0 and currentState != PlayerState.Dash and currentState != PlayerState.Attack:
+		inputBuffers["p"+str(player_id)+"dash"] = 0
 		dash(direction)
 		return
 	
@@ -75,14 +115,12 @@ func _physics_process(delta: float) -> void:
 func update_state(direction: float) -> void:
 	if currentState == PlayerState.Attack:
 		attacking()
-		return
-	if currentState == PlayerState.Dash:
+	elif currentState == PlayerState.Dash:
 		dash_move()
-		return
-	if Input.is_action_just_pressed("p1attack") and canAttack:
+	elif inputBuffers["p"+str(player_id)+"attack"] > 0 and canAttack:
+		inputBuffers["p"+str(player_id)+"attack"] = 0
 		attack()
-		return
-	if not is_on_floor():
+	elif not is_on_floor():
 		change_state(PlayerState.Jump, "jump")
 	elif abs(direction) > 0:
 		change_state(PlayerState.Run, "run")
@@ -97,30 +135,27 @@ func change_state(new_state: PlayerState, anim_name: String):
 	anim_player.play(anim_name)
 
 func attack() -> void:
-	
-	going_on = velocity.x
 	canAttack = false
 	currentState = PlayerState.Attack
 	#nagyon utalom ezt az egeszet
 	#get attack type (neutral, side, down, air?)
 	if is_on_floor():
 		canMove = false
-		if Input.is_action_pressed("p1down"):
+		if Input.is_action_pressed("p"+str(player_id)+"down"):
 			attackType = "down"
-		elif Input.is_action_pressed("p1side"):
+		elif Input.is_action_pressed("p"+str(player_id)+"side"):
 			attackType = "side"
 		else:
 			attackType = "neutral"
 	else:
-		if Input.is_action_pressed("p1up"):
+		if Input.is_action_pressed("p"+str(player_id)+"up"):
 			attackType = "nair"
-		elif Input.is_action_pressed("p1down"):
+		elif Input.is_action_pressed("p"+str(player_id)+"down"):
 			attackType = "down"
-		elif Input.is_action_pressed("p1side"):
+		elif Input.is_action_pressed("p"+str(player_id)+"side"):
 			attackType = "side"
 		else:
 			attackType = "nair"
-	print(weapon+"_"+attackType)
 	anim_player.play(weapon+"_"+attackType)
 
 func attacking()->void:
@@ -147,10 +182,10 @@ func dash(direction) -> void:
 	anim_player.play("dash")
 	currentState = PlayerState.Dash
 	
-	var right = Input.is_action_pressed("p1right")
-	var up = Input.is_action_pressed("p1up")
-	var down = Input.is_action_pressed("p1down")
-	var left = Input.is_action_pressed("p1left")
+	var right = Input.is_action_pressed("p"+str(player_id)+"right")
+	var up = Input.is_action_pressed("p"+str(player_id)+"up")
+	var down = Input.is_action_pressed("p"+str(player_id)+"down")
+	var left = Input.is_action_pressed("p"+str(player_id)+"left")
 	horizontal = (1 if right else 0) + (-1 if left else 0)
 	vertical = (-1 if up else 0) + (1 if down else 0)
 	velocity.x = (horizontal * horizontalDashForce)
@@ -184,7 +219,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 
 func _sword_neutral_hit(body: Node2D) -> void:
-	if body.is_in_group("player1"):
+	if body.is_in_group("player"+str(player_id)):
 		return
 	hitSomething = true
 	var force = Vector2(450* (-1 if facingLeft else 1),-50)
@@ -192,7 +227,7 @@ func _sword_neutral_hit(body: Node2D) -> void:
 
 
 func _sword_side_hit(body: Node2D) -> void:
-	if body.is_in_group("player1"):
+	if body.is_in_group("player"+str(player_id)):
 		return
 	hitSomething = true
 	var force = Vector2(600* (-1 if facingLeft else 1),0)
@@ -200,7 +235,7 @@ func _sword_side_hit(body: Node2D) -> void:
 
 
 func sword_down_hit(body: Node2D) -> void:
-	if body.is_in_group("player1"):
+	if body.is_in_group("player"+str(player_id)):
 		return
 	hitSomething = true
 	# dmg and force
@@ -213,7 +248,7 @@ func takeDamage():
 		return
 	else:
 		hp -=10
-		print("p1 hp: "+ str(hp))
+		print("p"+str(player_id)+" hp: "+ str(hp))
 
 func hit(dmg: int, force: Vector2)->void:
 	if not hurtable:
@@ -221,7 +256,20 @@ func hit(dmg: int, force: Vector2)->void:
 	else:
 		velocity = force
 		hp-= dmg
+		print("p"+str(player_id)+" hp: "+ str(hp))
 		return
 
 func _on_hurt_body_entered(body: Node2D) -> void:
 	takeDamage()
+
+
+
+
+
+func sword_nair_hit(body: Node2D) -> void:
+	if body.is_in_group("player"+str(player_id)):
+		return
+	hitSomething = true
+	# dmg and force
+	var force = Vector2(30* (-1 if facingLeft else 1),-200)
+	body.hit(30, force)
