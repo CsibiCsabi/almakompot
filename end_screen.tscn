@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfgt55c0qlyv2"]
+
+[ext_resource type="Script" uid="uid://cbva4rlbp2k7m" path="res://end_screen.gd" id="1_my301"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_abjgy"]
+font_size = 40
+
+[node name="end_screen" type="CanvasLayer"]
+script = ExtResource("1_my301")
+
+[node name="text" type="Label" parent="."]
+offset_left = 483.0
+offset_top = 149.0
+offset_right = 595.0
+offset_bottom = 204.0
+text = "Szöllő"
+label_settings = SubResource("LabelSettings_abjgy")

@@ -1,0 +1,97 @@
+[gd_scene load_steps=5 format=3 uid="uid://8720uhkvvnqh"]
+
+[ext_resource type="Script" uid="uid://0f0lrcokqpci" path="res://choose_character.gd" id="1_qjxgw"]
+[ext_resource type="Texture2D" uid="uid://d0lnbvaxgmnf" path="res://anims/idle/char_idle1.png" id="2_w00km"]
+[ext_resource type="Script" uid="uid://w723bid87bpp" path="res://preview.gd" id="3_fj7td"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fj7td"]
+font_size = 30
+
+[node name="choose_character" type="CanvasLayer"]
+script = ExtResource("1_qjxgw")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 534.0
+offset_top = 506.0
+offset_right = 595.0
+offset_bottom = 537.0
+text = "BEGIN!"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 487.0
+offset_top = 26.0
+offset_right = 662.0
+offset_bottom = 68.0
+text = "Select color:"
+label_settings = SubResource("LabelSettings_fj7td")
+
+[node name="preview1" type="Sprite2D" parent="."]
+position = Vector2(359, 249)
+scale = Vector2(2, 2)
+texture = ExtResource("2_w00km")
+script = ExtResource("3_fj7td")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="preview1"]
+offset_left = -46.0
+offset_top = 38.0
+offset_right = 148.0
+offset_bottom = 69.0
+scale = Vector2(0.545, 0.545)
+
+[node name="red" type="Button" parent="preview1/HBoxContainer"]
+layout_mode = 2
+text = "red"
+
+[node name="blue" type="Button" parent="preview1/HBoxContainer"]
+layout_mode = 2
+text = "blue
+"
+
+[node name="green" type="Button" parent="preview1/HBoxContainer"]
+layout_mode = 2
+text = "green"
+
+[node name="white" type="Button" parent="preview1/HBoxContainer"]
+layout_mode = 2
+text = "white"
+
+[node name="preview2" type="Sprite2D" parent="."]
+position = Vector2(789, 250)
+scale = Vector2(2, 2)
+texture = ExtResource("2_w00km")
+script = ExtResource("3_fj7td")
+player_id = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="preview2"]
+offset_left = -46.0
+offset_top = 38.0
+offset_right = 148.0
+offset_bottom = 69.0
+scale = Vector2(0.545, 0.545)
+
+[node name="red" type="Button" parent="preview2/HBoxContainer"]
+layout_mode = 2
+text = "red"
+
+[node name="blue" type="Button" parent="preview2/HBoxContainer"]
+layout_mode = 2
+text = "blue
+"
+
+[node name="green" type="Button" parent="preview2/HBoxContainer"]
+layout_mode = 2
+text = "green"
+
+[node name="white" type="Button" parent="preview2/HBoxContainer"]
+layout_mode = 2
+text = "white"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="preview1/HBoxContainer/red" to="preview1" method="_on_red_pressed"]
+[connection signal="pressed" from="preview1/HBoxContainer/blue" to="preview1" method="_on_blue_pressed"]
+[connection signal="pressed" from="preview1/HBoxContainer/green" to="preview1" method="_on_green_pressed"]
+[connection signal="pressed" from="preview1/HBoxContainer/white" to="preview1" method="_on_white_pressed"]
+[connection signal="pressed" from="preview2/HBoxContainer/red" to="preview2" method="_on_red_pressed"]
+[connection signal="pressed" from="preview2/HBoxContainer/blue" to="preview2" method="_on_blue_pressed"]
+[connection signal="pressed" from="preview2/HBoxContainer/green" to="preview2" method="_on_green_pressed"]
+[connection signal="pressed" from="preview2/HBoxContainer/white" to="preview2" method="_on_white_pressed"]

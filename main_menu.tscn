@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1h6lc0k6w7af"]
+
+[ext_resource type="Script" uid="uid://bytsmli4dm0x6" path="res://main_menu.gd" id="1_06t4h"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7vrkn"]
+font_size = 40
+font_color = Color(0.176471, 0.517647, 0.847059, 1)
+outline_size = 10
+outline_color = Color(1, 0.988235, 1, 1)
+shadow_size = 20
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_06t4h"]
+font_size = 13
+
+[node name="Main Menu" type="CanvasLayer"]
+script = ExtResource("1_06t4h")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 351.0
+offset_top = 143.0
+offset_right = 807.0
+offset_bottom = 198.0
+text = "Chaos on the Couch!"
+label_settings = SubResource("LabelSettings_7vrkn")
+uppercase = true
+
+[node name="Button" type="Button" parent="."]
+offset_left = 568.0
+offset_top = 300.0
+offset_right = 629.0
+offset_bottom = 331.0
+text = "START!"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 466.0
+offset_top = 201.0
+offset_right = 713.0
+offset_bottom = 224.0
+text = "Get a sick synergy. Lose a friend..."
+label_settings = SubResource("LabelSettings_06t4h")
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
