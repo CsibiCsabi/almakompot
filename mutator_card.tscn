@@ -1,0 +1,63 @@
+[gd_scene load_steps=4 format=3 uid="uid://dpk5is3ypty8h"]
+
+[ext_resource type="Script" uid="uid://cjol7u1q5gni7" path="res://mutator_card.gd" id="1_6wxt2"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_6wxt2"]
+font_size = 10
+outline_size = 3
+outline_color = Color(0, 0.290196, 0.317647, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0ede3"]
+font_size = 10
+
+[node name="mutator_card" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 300.0
+size_flags_horizontal = 2
+script = ExtResource("1_6wxt2")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 300.0
+color = Color(0, 0.360784, 0.588235, 1)
+
+[node name="name" type="Label" parent="."]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 30.0
+text = "Kartya neve"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="stat" type="Label" parent="."]
+layout_mode = 0
+offset_top = 49.0
+offset_right = 200.0
+offset_bottom = 99.0
+text = "Kartya neve"
+label_settings = SubResource("LabelSettings_6wxt2")
+horizontal_alignment = 1
+
+[node name="desc" type="Label" parent="."]
+layout_mode = 0
+offset_top = 102.0
+offset_right = 200.0
+offset_bottom = 142.0
+text = "leiras..."
+label_settings = SubResource("LabelSettings_0ede3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="select" type="Button" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 189.0
+offset_right = 150.0
+offset_bottom = 229.0
+pivot_offset = Vector2(50, 0)
+text = "SELECT"
+
+[connection signal="pressed" from="select" to="." method="_on_select_pressed"]

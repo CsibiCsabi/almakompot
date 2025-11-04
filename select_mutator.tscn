@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://l6n6iuqmfhdi"]
+
+[ext_resource type="Script" uid="uid://ceqhskpx0jdch" path="res://select_mutator.gd" id="1_faxou"]
+[ext_resource type="PackedScene" uid="uid://dpk5is3ypty8h" path="res://mutator_card.tscn" id="2_se8t4"]
+
+[node name="select_mutator" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_faxou")
+mutator_card_scene = ExtResource("2_se8t4")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 101.0
+offset_right = 966.0
+offset_bottom = 601.0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "asdfgh"
