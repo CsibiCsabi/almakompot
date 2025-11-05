@@ -46,6 +46,8 @@ func _ready() -> void:
 		"clash" : AttackData.new("clash", 0,Vector2(400,-200), 0.2),
 		"sword_heavy_neutral1" : AttackData.new("sword_heavy_neutral1", 1, Vector2(100,-330), 0.5),
 		"sword_heavy_neutral2" : AttackData.new("sword_heavy_neutral2", 1, Vector2(500,0), 0.3),
+		"sword_heavy_side1" : AttackData.new("sword_heavy_side1", 1, Vector2(0,-60), 0.3),
+		"sword_heavy_side2" : AttackData.new("sword_heavy_side2", 1, Vector2(500,150), 0.5),
 	}
 
 
@@ -76,7 +78,7 @@ var attacks = {}
 var speed = 400
 var canMove = true
 
-
+var myColor
 var facingLeft
 var hurtable = true
 #jumpi
@@ -125,6 +127,23 @@ var stunLength = 0.4
 
 #for mutators
 var gravityMultiplier = 1.0
+var dashVertical
+var dashHorizontal
+#dash mutators
+var pushDodge = 0 # 400-600
+var attackDodge = 0.0 # multiplier 0-2
+var stunDodge = 0.0 # time 0.1-0.4
+#poison
+var poison = 3 # the poison you apply
+var poison_length = 5 # times of dmg
+var poisonsToBeAdded = 0
+var poisonDamage = 0 #the poison you take as dmg
+var canApplyPoison = true
+#stinger
+var stinger = 0
+var stingTimer = -0.1
+var stingCooldown = 5
+
 
 func _input(event):
 	if usingController:
@@ -141,7 +160,25 @@ func _input(event):
 			if event.is_action_pressed(i):
 				inputBuffers[i] = input_buffer_time
 
+func apply_poison(dmg : float):
+	print("posions left: "+str(poisonsToBeAdded))
+	poisonsToBeAdded -=1
+	canApplyPoison = false
+	hp += dmg
+	sprite.self_modulate = Color.GREEN
+	await get_tree().create_timer(0.3).timeout
+	sprite.self_modulate = color
+	await get_tree().create_timer(0.2).timeout
+	canApplyPoison = true
+	label.text = "PLAYER"+str(player_id)+" HP: "+str(hp)
+	return
+
 func _physics_process(delta: float) -> void:
+	if poisonsToBeAdded > 0 and canApplyPoison:
+		apply_poison(poisonDamage)
+	if stingTimer > 0:
+		stingTimer-= delta
+		print("meg varj")
 	if stunned:
 		velocity.x = move_toward(velocity.x, 0, 1000 * delta)
 		velocity += get_gravity() * delta * gravityMultiplier
@@ -205,21 +242,18 @@ func die():
 	Szorp.i_lost(player_id)
 	queue_free()
 
-func hit(data : AttackData, str : int)->void:
+func hit(data : AttackData, str : int, poison : float, stinger : int)->void:
 	if not hurtable:
 		return
 	else:
 		#stun mechanic
 		stunned = true
-		
-		
 		sprite.scale.x = 1 if data.force.x > 0 else -1
 		facingLeft = data.force.x < 0
 		change_state(PlayerState.Hurt, "hurt")
 		if data.name in noMultiplierAttacks:
 			velocity = data.force
 		else:
-			
 			var forceX = data.force.x * (1 + hp / defense)
 			var forceY = data.force.y * (1 + hp / (defense*2))
 			velocity = Vector2(forceX, forceY)
@@ -231,13 +265,31 @@ func hit(data : AttackData, str : int)->void:
 		print("taken dmg:" + str(data.dmg * str))
 		hp += data.dmg * str / (defense / 100)
 		label.text = "PLAYER"+str(player_id)+" HP: "+str(hp)
+		if poison != 0:
+			poisonsToBeAdded = 4
+			poisonDamage = poison
+		if stinger != 0 and stingTimer < 0:
+			sting(stinger)
 		return
+
+func sting(number : int):
+	print("stinging...")
+	await get_tree().create_timer(stunTimer).timeout
+	stingTimer = stingCooldown
+	for i in range(number):
+		await get_tree().create_timer(1).timeout
+		stunned = true
+		change_state(PlayerState.Hurt, "hurt")
+		velocity.x = 0
+		stunTimer = 0.3
+
+
 
 func hit_opponent(body : Node2D, data : AttackData):
 	#TODO
 	var force = Vector2(data.force.x * (-1 if facingLeft else 1), data.force.y)
 	# return AttackData.new(data.name, dmg, force, data.stunTime)
-	body.hit(AttackData.new(data.name, data.dmg, force, data.stunTime + (0 if data.name in stunExceptionAttacks else plusStun)), strength)
+	body.hit(AttackData.new(data.name, data.dmg, force, data.stunTime + (0 if data.name in stunExceptionAttacks else plusStun)), strength, poison, stinger)
 
 
 
@@ -273,6 +325,29 @@ func jump() ->void:
 func smash():
 	velocity = Vector2(250,500)
 
+func side_teleport():
+	position.x += -50 if facingLeft else 50
+
+func back_teleport():
+	position.x -= -50 if facingLeft else 50
+
+var finisher = false
+var next = false
+func finishing():
+	finisher = true
+	var activeInput
+	print("finishing")
+	if usingController:
+		activeInput = "left" if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_X) < 0 else "right"
+	else:
+		activeInput = "left" if Input.get_axis("p"+str(player_id)+"left", "p"+str(player_id)+"right") < 0 else "right"
+	if (facingLeft and activeInput == "left") or (not facingLeft and activeInput == "right"):
+		anim_player.play("sword_side_heavy_finish1")
+	else:
+		finisher = false
+		next = true
+		anim_player.play("sword_side_heavy_finish2")
+		
 
 
 func attack(heavy : bool) -> void:
@@ -328,6 +403,8 @@ func attack(heavy : bool) -> void:
 			return
 		nairCount += 1
 	var weight = "_heavy" if heavy else ""
+	if (weapon+"_"+attackType + weight) == "sword_down_heavy":
+		weight = ""
 	anim_player.play(weapon+"_"+attackType + weight)
 
 func attacking()->void:
@@ -369,6 +446,8 @@ func dash() -> void:
 		supper = 0.1
 	velocity.x = (horizontal * horizontalDashForce)
 	velocity.y = (vertical * verticalDashForce)
+	dashVertical = vertical
+	dashHorizontal = horizontal
 	
 	await get_tree().create_timer(anim_player.get_animation("dash").length+supper).timeout
 	canMove = true
@@ -398,6 +477,8 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	else:
 		change_state(PlayerState.Idle, "idle")
 	hitSomething = false
+	finisher = false
+	next = false
 	hitCount = 0
 
 
@@ -456,13 +537,13 @@ func dair_hit(body: Node2D) -> void:
 
 func clash():
 	var clashForce = attacks["clash"].force
-	hit(AttackData.new("clash",0,Vector2(clashForce.x * (1 if facingLeft else -1), clashForce.y), 0.2), strength)
+	hit(AttackData.new("clash",0,Vector2(clashForce.x * (1 if facingLeft else -1), clashForce.y), 0.2), strength, 0, 0)
 	
 
 
 func _on_button_pressed() -> void:
 	var random_key = Mutator_Library.all_mutators.keys().pick_random()
-	Mutator_Library.all_mutators["Out of this world"].on_apply.call(self)
+	Mutator_Library.all_mutators["Pushy"].on_apply.call(self)
 
 
 var hitCount = 0
@@ -479,3 +560,31 @@ func sword_heavy_neutral_hit(body: Node2D) -> void:
 		anim_player.play("sword_neutral_heavy2")
 	if hitCount == 2:
 		hitCount = 0
+
+
+func _on_sword_heavy_side_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"+str(player_id)):
+		return
+	hitSomething = true
+	hitCount +=1
+	print(str(hitCount)+". hit")
+	if finisher:
+		hit_opponent(body, attacks["sword_heavy_side2"])
+	else:
+		hit_opponent(body, attacks["sword_heavy_side1"])
+	if hitCount == 1:
+		anim_player.play("sword_side_heavy2")
+	if next:
+		facingLeft = not facingLeft
+		finisher = true
+		next = false
+
+
+func _on_dodge_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"+str(player_id)):
+		return
+	var dashIrany = Vector2(0,0)
+	dashIrany = Vector2(dashHorizontal * pushDodge * 1.2, dashVertical* pushDodge)
+	
+	body.hit(AttackData.new("dodge", attackDodge, dashIrany, stunDodge), strength)
+		

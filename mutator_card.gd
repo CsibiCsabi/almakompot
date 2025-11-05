@@ -6,9 +6,10 @@ var mutator : Mutator
 func _ready() -> void:
 	var selected = Mutator_Library.all_mutators.keys().pick_random()
 	mutator = Mutator_Library.all_mutators[selected]
-	$name.text = mutator.name
-	$stat.text = mutator.stat
-	$desc.text = mutator.description
+	$VBoxContainer/name.text = mutator.name
+	$VBoxContainer/stat.text = mutator.stat
+	$VBoxContainer/desc.text = mutator.description
+	
 
 func _on_select_pressed() -> void:
 	print("asd")

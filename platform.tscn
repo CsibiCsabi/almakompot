@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=3 uid="uid://yfkrwparwiy2"]
+[gd_scene load_steps=118 format=3 uid="uid://yfkrwparwiy2"]
 
 [ext_resource type="Script" uid="uid://bhm7muffwow13" path="res://karakter.gd" id="1_mhenq"]
 [ext_resource type="Texture2D" uid="uid://bs2v7nlme0ne6" path="res://anims/dash/dash.png" id="2_t7mtf"]
@@ -58,6 +58,18 @@
 [ext_resource type="Texture2D" uid="uid://db6f7jnmch6gq" path="res://anims/attack/sword/heavy_neutral/sword_heavy_neutral6.png" id="53_afn4y"]
 [ext_resource type="Texture2D" uid="uid://r5nl58j4mb26" path="res://anims/attack/sword/heavy_neutral/sword_heavy_neutral7.png" id="54_2juj1"]
 [ext_resource type="Texture2D" uid="uid://cq6lcrtnyy3w4" path="res://anims/attack/sword/heavy_neutral/sword_heavy_neutral8.png" id="55_6pucu"]
+[ext_resource type="Texture2D" uid="uid://2b22vl77vsd0" path="res://anims/attack/sword/heavy_side/heavy_side1.png" id="56_afn4y"]
+[ext_resource type="Texture2D" uid="uid://b0xh1ykcr06dn" path="res://anims/attack/sword/heavy_side/heavy_side2.png" id="57_2juj1"]
+[ext_resource type="Texture2D" uid="uid://x6pwm3kqge6j" path="res://anims/attack/sword/heavy_side/heavy_side3.png" id="58_sggt5"]
+[ext_resource type="Texture2D" uid="uid://bot1gt3qugo52" path="res://anims/attack/sword/heavy_side/heavy_side4.png" id="59_ltej7"]
+[ext_resource type="Texture2D" uid="uid://clkrp24a6swmg" path="res://anims/attack/sword/heavy_side/heavy_side5.png" id="60_sggt5"]
+[ext_resource type="Texture2D" uid="uid://dqmvksuyvegc" path="res://anims/attack/sword/heavy_side/heavy_side6.png" id="61_ltej7"]
+[ext_resource type="Texture2D" uid="uid://ciee47rimc543" path="res://anims/attack/sword/heavy_side/heavy_side7.png" id="62_gx6xj"]
+[ext_resource type="Texture2D" uid="uid://xx365cdehchg" path="res://anims/attack/sword/heavy_side/heavy_side11.png" id="63_fn8co"]
+[ext_resource type="Texture2D" uid="uid://cnlw6piv45fey" path="res://anims/attack/sword/heavy_side/heavy_side12.png" id="64_ajtox"]
+[ext_resource type="Texture2D" uid="uid://dof5hnatwvrte" path="res://anims/attack/sword/heavy_side/heavy_side8.png" id="65_6nhv8"]
+[ext_resource type="Texture2D" uid="uid://d3pcvhnisyjqm" path="res://anims/attack/sword/heavy_side/heavy_side9.png" id="66_g8p30"]
+[ext_resource type="Texture2D" uid="uid://dysfvie7cqr7" path="res://anims/attack/sword/heavy_side/heavy_side10.png" id="67_db2jx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jukud"]
 size = Vector2(15, 41)
@@ -208,6 +220,66 @@ tracks/11/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/12/type = "value"
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/path = NodePath("Sprite2D/sword_heavy_side/1:disabled")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("Sprite2D/sword_heavy_side/2:disabled")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("Sprite2D/sword_heavy_side/finish1:disabled")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("Sprite2D/sword_heavy_side/finish2:disabled")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("Sprite2D/dodge/dodge:disabled")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_l6b6m"]
 
@@ -242,7 +314,6 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_qdghe"]
 resource_name = "dash"
 length = 0.15
-loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -254,6 +325,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("2_t7mtf")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/dodge/dodge:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.145),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 
 [sub_resource type="Animation" id="Animation_55de4"]
@@ -608,34 +691,6 @@ tracks/1/keys = {
 "values": [false, true]
 }
 
-[sub_resource type="Animation" id="Animation_lluh6"]
-resource_name = "sword_side"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.166667, 0.266667),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("37_kwadk"), ExtResource("38_oeb0b"), ExtResource("39_we0n8"), ExtResource("40_ubhxk"), ExtResource("41_xyfwc")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D/sword_side/sword_side:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.166667, 0.266667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-
 [sub_resource type="Animation" id="Animation_ijp6i"]
 resource_name = "sword_neutral_heavy2"
 length = 0.51
@@ -693,6 +748,221 @@ tracks/3/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_lluh6"]
+resource_name = "sword_side"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.166667, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("37_kwadk"), ExtResource("38_oeb0b"), ExtResource("39_we0n8"), ExtResource("40_ubhxk"), ExtResource("41_xyfwc")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/sword_side/sword_side:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.166667, 0.266667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_gyirh"]
+resource_name = "sword_side_heavy"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("56_afn4y"), ExtResource("57_2juj1"), ExtResource("58_sggt5"), ExtResource("59_ltej7")]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.16666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"side_teleport"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/sword_heavy_side/1:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_gx6xj"]
+resource_name = "sword_side_heavy2"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("59_ltej7"), ExtResource("60_sggt5"), ExtResource("61_ltej7"), ExtResource("62_gx6xj"), ExtResource("59_ltej7"), ExtResource("60_sggt5"), ExtResource("61_ltej7")]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.09, 0.29, 0.49, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"values": [{
+"args": [],
+"method": &"back_teleport"
+}, {
+"args": [],
+"method": &"side_teleport"
+}, {
+"args": [],
+"method": &"back_teleport"
+}, {
+"args": [],
+"method": &"finishing"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/sword_heavy_side/1:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/sword_heavy_side/2:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_6nhv8"]
+resource_name = "sword_side_heavy_finish1"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [ExtResource("61_ltej7"), ExtResource("63_fn8co"), ExtResource("64_ajtox")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/sword_heavy_side/finish1:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_vcdip"]
+resource_name = "sword_side_heavy_finish2"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("61_ltej7"), ExtResource("62_gx6xj"), ExtResource("65_6nhv8"), ExtResource("66_g8p30"), ExtResource("67_db2jx")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/sword_heavy_side/finish2:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/sword_heavy_side/2:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.09),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"side_teleport"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_25phc"]
 _data = {
 &"RESET": SubResource("Animation_sxpvs"),
@@ -709,7 +979,11 @@ _data = {
 &"sword_neutral": SubResource("Animation_kuxmf"),
 &"sword_neutral_heavy": SubResource("Animation_sggt5"),
 &"sword_neutral_heavy2": SubResource("Animation_ijp6i"),
-&"sword_side": SubResource("Animation_lluh6")
+&"sword_side": SubResource("Animation_lluh6"),
+&"sword_side_heavy": SubResource("Animation_gyirh"),
+&"sword_side_heavy2": SubResource("Animation_gx6xj"),
+&"sword_side_heavy_finish1": SubResource("Animation_6nhv8"),
+&"sword_side_heavy_finish2": SubResource("Animation_vcdip")
 }
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xp2pc"]
@@ -744,6 +1018,25 @@ points = PackedVector2Array(58, 7, 49, -16, 24, -32, -13, -28, 38, 26)
 [sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_hipdk"]
 points = PackedVector2Array(-21.404694, -48.52668, 16.62001, -33.193, 36.03569, -3.7985878, 20.103271, 49.08012, -8.467659, 39.71522)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6nhv8"]
+radius = 6.0
+height = 77.58625
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_g8p30"]
+height = 108.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_db2jx"]
+radius = 13.03816
+height = 84.63755
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vcdip"]
+radius = 10.999998
+height = 82.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qqi1l"]
+radius = 18.000002
+height = 48.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f43kg"]
 size = Vector2(751, 41)
 
@@ -766,10 +1059,10 @@ shape = SubResource("RectangleShape2D_jukud")
 [node name="CanvasLayer" type="CanvasLayer" parent="p1"]
 
 [node name="Label" type="Label" parent="p1/CanvasLayer"]
-offset_left = 26.0
-offset_top = 48.0
-offset_right = 140.0
-offset_bottom = 97.0
+offset_left = 27.0
+offset_top = 82.0
+offset_right = 141.0
+offset_bottom = 131.0
 text = "ALMAKOMPOT"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="p1"]
@@ -879,6 +1172,44 @@ rotation = -0.38330993
 shape = SubResource("ConvexPolygonShape2D_hipdk")
 disabled = true
 
+[node name="sword_heavy_side" type="Area2D" parent="p1/Sprite2D"]
+
+[node name="1" type="CollisionShape2D" parent="p1/Sprite2D/sword_heavy_side"]
+position = Vector2(5, 8)
+rotation = 1.5707964
+scale = Vector2(1, 1.1599994)
+shape = SubResource("CapsuleShape2D_6nhv8")
+disabled = true
+
+[node name="2" type="CollisionShape2D" parent="p1/Sprite2D/sword_heavy_side"]
+position = Vector2(-4, 10)
+rotation = -1.5707964
+scale = Vector2(0.68, 1)
+shape = SubResource("CapsuleShape2D_g8p30")
+disabled = true
+
+[node name="finish1" type="CollisionShape2D" parent="p1/Sprite2D/sword_heavy_side"]
+position = Vector2(-2, -2)
+rotation = 1.4206727
+scale = Vector2(1, 1.0581677)
+shape = SubResource("CapsuleShape2D_db2jx")
+disabled = true
+
+[node name="finish2" type="CollisionShape2D" parent="p1/Sprite2D/sword_heavy_side"]
+position = Vector2(3, -3)
+rotation = 1.6945155
+scale = Vector2(1.6155472, 1.1317259)
+shape = SubResource("CapsuleShape2D_vcdip")
+disabled = true
+
+[node name="dodge" type="Area2D" parent="p1/Sprite2D"]
+
+[node name="dodge" type="CollisionShape2D" parent="p1/Sprite2D/dodge"]
+position = Vector2(-1, 12)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_qqi1l")
+disabled = true
+
 [node name="p2" type="CharacterBody2D" parent="."]
 collision_mask = 4
 script = ExtResource("1_mhenq")
@@ -891,10 +1222,10 @@ shape = SubResource("RectangleShape2D_jukud")
 [node name="CanvasLayer" type="CanvasLayer" parent="p2"]
 
 [node name="Label" type="Label" parent="p2/CanvasLayer"]
-offset_left = 26.0
-offset_top = 48.0
-offset_right = 140.0
-offset_bottom = 97.0
+offset_left = 23.0
+offset_top = 112.0
+offset_right = 137.0
+offset_bottom = 161.0
 text = "ALMAKOMPOT"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="p2"]
@@ -1004,6 +1335,44 @@ rotation = -0.38330993
 shape = SubResource("ConvexPolygonShape2D_hipdk")
 disabled = true
 
+[node name="sword_heavy_side" type="Area2D" parent="p2/Sprite2D"]
+
+[node name="1" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_side"]
+position = Vector2(5, 8)
+rotation = 1.5707964
+scale = Vector2(1, 1.1599994)
+shape = SubResource("CapsuleShape2D_6nhv8")
+disabled = true
+
+[node name="2" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_side"]
+position = Vector2(-4, 10)
+rotation = -1.5707964
+scale = Vector2(0.68, 1)
+shape = SubResource("CapsuleShape2D_g8p30")
+disabled = true
+
+[node name="finish1" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_side"]
+position = Vector2(-2, -2)
+rotation = 1.4206727
+scale = Vector2(1, 1.0581677)
+shape = SubResource("CapsuleShape2D_db2jx")
+disabled = true
+
+[node name="finish2" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_side"]
+position = Vector2(3, -3)
+rotation = 1.6945155
+scale = Vector2(1.6155472, 1.1317259)
+shape = SubResource("CapsuleShape2D_vcdip")
+disabled = true
+
+[node name="dodge" type="Area2D" parent="p2/Sprite2D"]
+
+[node name="dodge" type="CollisionShape2D" parent="p2/Sprite2D/dodge"]
+position = Vector2(-1, 12)
+rotation = -1.5707964
+shape = SubResource("CapsuleShape2D_qqi1l")
+disabled = true
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 4
 
@@ -1081,6 +1450,8 @@ text = "APPLY MUTATOR"
 [connection signal="body_entered" from="p1/Sprite2D/sword_nair" to="p1" method="sword_nair_hit"]
 [connection signal="body_entered" from="p1/Sprite2D/sword_dair" to="p1" method="dair_hit"]
 [connection signal="body_entered" from="p1/Sprite2D/sword_heavy_neutral" to="p1" method="sword_heavy_neutral_hit"]
+[connection signal="body_entered" from="p1/Sprite2D/sword_heavy_side" to="p1" method="_on_sword_heavy_side_body_entered"]
+[connection signal="body_entered" from="p1/Sprite2D/dodge" to="p1" method="_on_dodge_body_entered"]
 [connection signal="animation_finished" from="p2/AnimationPlayer" to="p2" method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="p2/Sprite2D/sword_neutral" to="p2" method="_sword_neutral_hit"]
 [connection signal="body_entered" from="p2/Sprite2D/sword_side" to="p2" method="_sword_side_hit"]
@@ -1088,6 +1459,8 @@ text = "APPLY MUTATOR"
 [connection signal="body_entered" from="p2/Sprite2D/sword_nair" to="p2" method="sword_nair_hit"]
 [connection signal="body_entered" from="p2/Sprite2D/sword_dair" to="p2" method="dair_hit"]
 [connection signal="body_entered" from="p2/Sprite2D/sword_heavy_neutral" to="p2" method="sword_heavy_neutral_hit"]
+[connection signal="body_entered" from="p2/Sprite2D/sword_heavy_side" to="p2" method="_on_sword_heavy_side_body_entered"]
+[connection signal="body_entered" from="p2/Sprite2D/dodge" to="p2" method="_on_dodge_body_entered"]
 [connection signal="body_entered" from="DeathZone_floor" to="DeathZone_floor" method="_on_body_entered"]
 [connection signal="body_entered" from="DeathZone_ceiling" to="DeathZone_ceiling" method="_on_body_entered"]
 [connection signal="body_entered" from="DeathZone_left" to="DeathZone_left" method="_on_body_entered"]
