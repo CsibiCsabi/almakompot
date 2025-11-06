@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://dpk5is3ypty8h"]
+[gd_scene load_steps=8 format=3 uid="uid://dpk5is3ypty8h"]
 
 [ext_resource type="Script" uid="uid://cjol7u1q5gni7" path="res://mutator_card.gd" id="1_6wxt2"]
+[ext_resource type="LabelSettings" uid="uid://cpn58c73d1w0h" path="res://leiras.tres" id="2_0ede3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6wxt2"]
-bg_color = Color(0.09385606, 0.19715656, 0.18889253, 1)
+bg_color = Color(0.049132407, 0.20944428, 0.2066318, 1)
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
@@ -18,51 +19,78 @@ shadow_color = Color(1, 1, 1, 0.6)
 shadow_size = 5
 shadow_offset = Vector2(1, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_6wxt2"]
-font_size = 10
-outline_size = 3
-outline_color = Color(0, 0.290196, 0.317647, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_nep74"]
+font_size = 24
+font_color = Color(0.1764706, 0.5176471, 0.84705883, 1)
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 9
+shadow_color = Color(0.1764706, 0.5176471, 0.84705883, 1)
+shadow_offset = Vector2(0, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_0ede3"]
-font_size = 10
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 0
+shadow_offset = Vector2(0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nep74"]
+bg_color = Color(0.06940812, 0.14211106, 0.11532577, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1764706, 0.5176471, 0.84705883, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0ede3"]
+bg_color = Color(0, 0.42167524, 0.27746886, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1, 1, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0, 1, 1, 1)
+shadow_size = 5
 
 [node name="mutator_card" type="Control"]
+custom_minimum_size = Vector2(250, 366)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 2
+size_flags_horizontal = 6
 script = ExtResource("1_6wxt2")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 0
-offset_right = 200.0
-offset_bottom = 300.0
+offset_right = 250.0
+offset_bottom = 366.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_6wxt2")
-
-[node name="select" type="Button" parent="."]
-layout_mode = 0
-offset_left = 50.0
-offset_top = 189.0
-offset_right = 150.0
-offset_bottom = 229.0
-pivot_offset = Vector2(50, 0)
-text = "SELECT"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 20.0
+offset_left = 10.0
 offset_top = 15.0
-offset_right = 180.0
-offset_bottom = 185.0
-pivot_offset = Vector2(90, 0)
-theme_override_constants/separation = 15
+offset_right = 240.0
+offset_bottom = 215.0
+pivot_offset = Vector2(115, 0)
+theme_override_constants/separation = 30
 
 [node name="name" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "Kartya neve"
+theme_override_font_sizes/font_size = 37
+text = "Kartya Neve"
+label_settings = SubResource("LabelSettings_nep74")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -70,7 +98,7 @@ autowrap_mode = 2
 [node name="stat" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 text = "Kartya neve"
-label_settings = SubResource("LabelSettings_6wxt2")
+label_settings = ExtResource("2_0ede3")
 horizontal_alignment = 1
 autowrap_mode = 2
 
@@ -81,5 +109,17 @@ label_settings = SubResource("LabelSettings_0ede3")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
+
+[node name="select" type="Button" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 256.0
+offset_right = 200.0
+offset_bottom = 316.0
+pivot_offset = Vector2(75, 0)
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_nep74")
+theme_override_styles/hover = SubResource("StyleBoxFlat_0ede3")
+text = "SELECT"
 
 [connection signal="pressed" from="select" to="." method="_on_select_pressed"]

@@ -39,8 +39,7 @@ func _ready() -> void:
 		"sword_neutral" : AttackData.new("sword_neutral", 1.4, Vector2(300,-200), 0.3),
 		
 		"sword_side" : AttackData.new("sword_side", 1,Vector2(400,-100), 0.2),
-		"sword_down" : AttackData.new("sword_down", 0.9,Vector2(200,-240), 0.5),
-		"sword_down2" : AttackData.new("sword_down2", 0.8,Vector2(200,-240), 0.5),
+		"sword_down" : AttackData.new("sword_down", 0.8,Vector2(200,-240), 0.5),
 		"sword_nair" : AttackData.new("sword_nair", 1,Vector2(200,-250), 0.3),
 		"sword_dair" : AttackData.new("sword_dair", 1.2,Vector2(10,100), 0.15),
 		"clash" : AttackData.new("clash", 0,Vector2(400,-200), 0.2),
@@ -48,6 +47,8 @@ func _ready() -> void:
 		"sword_heavy_neutral2" : AttackData.new("sword_heavy_neutral2", 1, Vector2(500,0), 0.3),
 		"sword_heavy_side1" : AttackData.new("sword_heavy_side1", 1, Vector2(0,-60), 0.3),
 		"sword_heavy_side2" : AttackData.new("sword_heavy_side2", 1, Vector2(500,150), 0.5),
+		"sword_heavy_down1" : AttackData.new("sword_heavy_down1", 1, Vector2(500,0), 0.5),
+		"sword_heavy_down2" : AttackData.new("sword_heavy_down2", 1, Vector2(-500,0), 0.5),
 	}
 
 
@@ -117,13 +118,12 @@ var stunExceptionAttacks = ["sword_down", "sword_dair"]
 var strength : float = 10
 var defense : float = 100
 
-var noAttackAnims = ["run", "idle", "hurt", "jump"]
+var noAttackAnims = ["run", "idle", "hurt", "jump", "dash"]
 
 #stun/beung hurt
 var stunned = false
 var currentForce = Vector2(0,0)
 var stunTimer = 0
-var stunLength = 0.4
 
 #for mutators
 var gravityMultiplier = 1.0
@@ -134,7 +134,7 @@ var pushDodge = 0 # 400-600
 var attackDodge = 0.0 # multiplier 0-2
 var stunDodge = 0.0 # time 0.1-0.4
 #poison
-var poison = 3 # the poison you apply
+var poison = 0 # the poison you apply
 var poison_length = 5 # times of dmg
 var poisonsToBeAdded = 0
 var poisonDamage = 0 #the poison you take as dmg
@@ -319,8 +319,8 @@ func change_state(new_state: PlayerState, anim_name: String):
 	anim_player.play(anim_name)
 
 
-func jump() ->void:
-	velocity = Vector2(-500,-280)
+func jump(force : Vector2) ->void:
+	velocity = force
 
 func smash():
 	velocity = Vector2(250,500)
@@ -347,8 +347,10 @@ func finishing():
 		finisher = false
 		next = true
 		anim_player.play("sword_side_heavy_finish2")
-		
 
+var second = false
+func down_heavy_2():
+	second = true
 
 func attack(heavy : bool) -> void:
 	canAttack = false
@@ -362,14 +364,14 @@ func attack(heavy : bool) -> void:
 			var y = Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_Y)
 			var x = abs(Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_X))
 			if y > contiDeadzone:
-				attackType = "down2"
+				attackType = "down"
 			elif x > contiDeadzone:
 				attackType = "side"
 			else:
 				attackType = "neutral"
 		else:
 			if Input.is_action_pressed("p"+str(player_id)+"down"):
-				attackType = "down2"
+				attackType = "down"
 			elif Input.is_action_pressed("p"+str(player_id)+"side"):
 				attackType = "side"
 			else:
@@ -403,8 +405,6 @@ func attack(heavy : bool) -> void:
 			return
 		nairCount += 1
 	var weight = "_heavy" if heavy else ""
-	if (weapon+"_"+attackType + weight) == "sword_down_heavy":
-		weight = ""
 	anim_player.play(weapon+"_"+attackType + weight)
 
 func attacking()->void:
@@ -479,6 +479,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	hitSomething = false
 	finisher = false
 	next = false
+	second = false
 	hitCount = 0
 
 
@@ -558,7 +559,8 @@ func sword_heavy_neutral_hit(body: Node2D) -> void:
 	hit_opponent(body, attacks["sword_heavy_neutral"+str(hitCount)])
 	if (hitCount == 1):
 		anim_player.play("sword_neutral_heavy2")
-	if hitCount == 2:
+		
+	if hitCount >= 2:
 		hitCount = 0
 
 
@@ -586,5 +588,15 @@ func _on_dodge_body_entered(body: Node2D) -> void:
 	var dashIrany = Vector2(0,0)
 	dashIrany = Vector2(dashHorizontal * pushDodge * 1.2, dashVertical* pushDodge)
 	
-	body.hit(AttackData.new("dodge", attackDodge, dashIrany, stunDodge), strength)
+	body.hit(AttackData.new("dodge", attackDodge, dashIrany, stunDodge), strength, poison, stinger)
 		
+
+
+func _on_sword_heavy_down_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"+str(player_id)):
+		return
+	hitSomething = true
+	if second:
+		hit_opponent(body, attacks["sword_heavy_down2"])
+	else:
+		hit_opponent(body, attacks["sword_heavy_down1"])

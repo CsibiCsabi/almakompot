@@ -1,4 +1,4 @@
-[gd_scene load_steps=118 format=3 uid="uid://yfkrwparwiy2"]
+[gd_scene load_steps=129 format=3 uid="uid://yfkrwparwiy2"]
 
 [ext_resource type="Script" uid="uid://bhm7muffwow13" path="res://karakter.gd" id="1_mhenq"]
 [ext_resource type="Texture2D" uid="uid://bs2v7nlme0ne6" path="res://anims/dash/dash.png" id="2_t7mtf"]
@@ -37,6 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://dnq4gyt28edsf" path="res://anims/attack/sword/neutral/sword_neutral6.png" id="35_eup78"]
 [ext_resource type="Texture2D" uid="uid://b3wxbiurymvtj" path="res://anims/attack/sword/neutral/sword_neutral7.png" id="36_xr4gn"]
 [ext_resource type="Texture2D" uid="uid://b185y75v4owj6" path="res://anims/attack/sword/side/sword_side1.png" id="37_kwadk"]
+[ext_resource type="Texture2D" uid="uid://7ysdp8s5y7l5" path="res://anims/attack/sword/heavy_down/sword_heavy_down8.png" id="37_xr4gn"]
 [ext_resource type="Texture2D" uid="uid://b3qls3ckvqc12" path="res://anims/attack/sword/side/sword_side2.png" id="38_oeb0b"]
 [ext_resource type="Texture2D" uid="uid://dmq735w2c1lok" path="res://anims/attack/sword/side/sword_side3.png" id="39_we0n8"]
 [ext_resource type="Texture2D" uid="uid://cq8quvw7ax5cj" path="res://anims/attack/sword/side/sword_side4.png" id="40_ubhxk"]
@@ -70,6 +71,13 @@
 [ext_resource type="Texture2D" uid="uid://dof5hnatwvrte" path="res://anims/attack/sword/heavy_side/heavy_side8.png" id="65_6nhv8"]
 [ext_resource type="Texture2D" uid="uid://d3pcvhnisyjqm" path="res://anims/attack/sword/heavy_side/heavy_side9.png" id="66_g8p30"]
 [ext_resource type="Texture2D" uid="uid://dysfvie7cqr7" path="res://anims/attack/sword/heavy_side/heavy_side10.png" id="67_db2jx"]
+[ext_resource type="Texture2D" uid="uid://c8l5l3ac5a5bb" path="res://anims/attack/sword/heavy_down/sword_heavy_down1.png" id="68_eup78"]
+[ext_resource type="Texture2D" uid="uid://0gm6rmlmbjt4" path="res://anims/attack/sword/heavy_down/sword_heavy_down2.png" id="69_xr4gn"]
+[ext_resource type="Texture2D" uid="uid://kxymh6ejbf4i" path="res://anims/attack/sword/heavy_down/sword_heavy_down3.png" id="70_kwadk"]
+[ext_resource type="Texture2D" uid="uid://lbiw373eaorq" path="res://anims/attack/sword/heavy_down/sword_heavy_down4.png" id="71_oeb0b"]
+[ext_resource type="Texture2D" uid="uid://bcexg8kgrensh" path="res://anims/attack/sword/heavy_down/sword_heavy_down5.png" id="72_we0n8"]
+[ext_resource type="Texture2D" uid="uid://gan571hlya6f" path="res://anims/attack/sword/heavy_down/sword_heavy_down6.png" id="73_ubhxk"]
+[ext_resource type="Texture2D" uid="uid://7tioew7poy7r" path="res://anims/attack/sword/heavy_down/sword_heavy_down7.png" id="74_xyfwc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jukud"]
 size = Vector2(15, 41)
@@ -275,6 +283,30 @@ tracks/16/path = NodePath("Sprite2D/dodge/dodge:disabled")
 tracks/16/interp = 1
 tracks/16/loop_wrap = true
 tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("Sprite2D/sword_heavy_down/1:disabled")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/18/type = "value"
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/path = NodePath("Sprite2D/sword_heavy_down/2:disabled")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -515,36 +547,8 @@ tracks/1/keys = {
 "values": [false, true]
 }
 
-[sub_resource type="Animation" id="Animation_hvevt"]
-resource_name = "sword_down"
-length = 0.325
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [ExtResource("18_sx3je"), ExtResource("19_ccwsd"), ExtResource("20_afn4y"), ExtResource("21_2juj1"), ExtResource("22_sggt5"), ExtResource("23_ltej7")]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D/sword_down/sword_down:disabled")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-
 [sub_resource type="Animation" id="Animation_mex6o"]
-resource_name = "sword_down2"
+resource_name = "sword_down"
 length = 0.366
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -578,6 +582,93 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0.2, 0.266667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_hvevt"]
+resource_name = "sword_down(regi)"
+length = 0.325
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("18_sx3je"), ExtResource("19_ccwsd"), ExtResource("20_afn4y"), ExtResource("21_2juj1"), ExtResource("22_sggt5"), ExtResource("23_ltej7")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/sword_down/sword_down:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_1eiaq"]
+resource_name = "sword_down_heavy"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.46666667, 0.56666666, 0.6333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("68_eup78"), ExtResource("69_xr4gn"), ExtResource("70_kwadk"), ExtResource("71_oeb0b"), ExtResource("72_we0n8"), ExtResource("73_ubhxk"), ExtResource("74_xyfwc"), ExtResource("37_xr4gn")]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.16666667, 0.4, 0.53),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [Vector2(0, -350)],
+"method": &"jump"
+}, {
+"args": [Vector2(0, 200)],
+"method": &"jump"
+}, {
+"args": [],
+"method": &"down_heavy_2"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/sword_heavy_down/1:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/sword_heavy_down/2:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -740,7 +831,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0.2, 0.43333334),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
-"args": [],
+"args": [Vector2(100, -300)],
 "method": &"jump"
 }, {
 "args": [],
@@ -973,8 +1064,9 @@ _data = {
 &"jump": SubResource("Animation_fuw8l"),
 &"run": SubResource("Animation_pd4ew"),
 &"sword_dair": SubResource("Animation_sw22d"),
-&"sword_down": SubResource("Animation_hvevt"),
-&"sword_down2": SubResource("Animation_mex6o"),
+&"sword_down": SubResource("Animation_mex6o"),
+&"sword_down(regi)": SubResource("Animation_hvevt"),
+&"sword_down_heavy": SubResource("Animation_1eiaq"),
 &"sword_nair": SubResource("Animation_jkv08"),
 &"sword_neutral": SubResource("Animation_kuxmf"),
 &"sword_neutral_heavy": SubResource("Animation_sggt5"),
@@ -1036,6 +1128,13 @@ height = 82.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qqi1l"]
 radius = 18.000002
 height = 48.0
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_xr4gn"]
+points = PackedVector2Array(-14, -41, 36, -35, 61, -10, 60, 27, 33, 47, 16, 29, 26, -1)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xr4gn"]
+radius = 10.308826
+height = 32.823044
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f43kg"]
 size = Vector2(751, 41)
@@ -1210,7 +1309,21 @@ rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_qqi1l")
 disabled = true
 
+[node name="sword_heavy_down" type="Area2D" parent="p1/Sprite2D"]
+
+[node name="1" type="CollisionShape2D" parent="p1/Sprite2D/sword_heavy_down"]
+shape = SubResource("ConvexPolygonShape2D_xr4gn")
+disabled = true
+
+[node name="2" type="CollisionShape2D" parent="p1/Sprite2D/sword_heavy_down"]
+position = Vector2(24, 33)
+rotation = 1.3575946
+scale = Vector2(1.883451, 2.821714)
+shape = SubResource("CapsuleShape2D_xr4gn")
+disabled = true
+
 [node name="p2" type="CharacterBody2D" parent="."]
+position = Vector2(112, 4)
 collision_mask = 4
 script = ExtResource("1_mhenq")
 player_id = 2
@@ -1222,10 +1335,10 @@ shape = SubResource("RectangleShape2D_jukud")
 [node name="CanvasLayer" type="CanvasLayer" parent="p2"]
 
 [node name="Label" type="Label" parent="p2/CanvasLayer"]
-offset_left = 23.0
-offset_top = 112.0
-offset_right = 137.0
-offset_bottom = 161.0
+offset_left = 26.0
+offset_top = 56.0
+offset_right = 140.0
+offset_bottom = 105.0
 text = "ALMAKOMPOT"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="p2"]
@@ -1452,6 +1565,7 @@ text = "APPLY MUTATOR"
 [connection signal="body_entered" from="p1/Sprite2D/sword_heavy_neutral" to="p1" method="sword_heavy_neutral_hit"]
 [connection signal="body_entered" from="p1/Sprite2D/sword_heavy_side" to="p1" method="_on_sword_heavy_side_body_entered"]
 [connection signal="body_entered" from="p1/Sprite2D/dodge" to="p1" method="_on_dodge_body_entered"]
+[connection signal="body_entered" from="p1/Sprite2D/sword_heavy_down" to="p1" method="_on_sword_heavy_down_body_entered"]
 [connection signal="animation_finished" from="p2/AnimationPlayer" to="p2" method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="p2/Sprite2D/sword_neutral" to="p2" method="_sword_neutral_hit"]
 [connection signal="body_entered" from="p2/Sprite2D/sword_side" to="p2" method="_sword_side_hit"]
