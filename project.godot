@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="almakompot"
-run/main_scene="uid://yfkrwparwiy2"
+config/name="Chaos On the Couch"
+run/main_scene="uid://d1h6lc0k6w7af"
 config/features=PackedStringArray("4.5", "GL Compatibility")
 config/icon="res://icon.svg"
 

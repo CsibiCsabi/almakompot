@@ -2,19 +2,41 @@ extends Control
 
 
 var mutator : Mutator
+var animPlayer
+var selectable = true
+
+signal mutator_selected(mut : Mutator)
 
 func _ready() -> void:
-	var selected = Mutator_Library.all_mutators.keys().pick_random()
-	mutator = Mutator_Library.all_mutators[selected]
-	$VBoxContainer/name.text = mutator.name
-	$VBoxContainer/stat.text = mutator.stat
-	$VBoxContainer/desc.text = mutator.description
 	
+	animPlayer = $AnimationPlayer
+
+func setMutator(mut : Mutator):
+	mutator = mut
+	$Panel/VBoxContainer/name.text = mutator.name
+	$Panel/VBoxContainer/stat.text = mutator.stat
+	$Panel/VBoxContainer/desc.text = mutator.description
+
 
 func _on_select_pressed() -> void:
-	print("asd")
-	if Szorp.loser == 1:
-		Szorp.p1mutators.append(mutator)
-	else:
-		Szorp.p2mutators.append(mutator)
-	get_tree().change_scene_to_file("res://platform.tscn")
+	$Panel/VBoxContainer/select.disabled = true
+	$Panel.modulate = Color.DIM_GRAY
+	selectable = false
+	$Panel.scale = Vector2(1,1)
+	emit_signal("mutator_selected", mutator)
+
+
+func _on_panel_mouse_entered() -> void:
+	if selectable:
+		animPlayer.play("hover")
+		var sb = $Panel.get_theme_stylebox("panel").duplicate()
+		sb.shadow_size = 10
+		$Panel.add_theme_stylebox_override("panel", sb)
+
+
+func _on_panel_mouse_exited() -> void:
+	if selectable:
+		animPlayer.play("exit")
+		var sb = $Panel.get_theme_stylebox("panel").duplicate()
+		sb.shadow_size = 5
+		$Panel.add_theme_stylebox_override("panel", sb)

@@ -25,15 +25,11 @@ func _ready() -> void:
 	if player_id == 1:
 		print("p1 mutators:")
 		color = Szorp.p1color
-		for i in Szorp.p1mutators:
-			print(i.name)
-			i.on_apply.call(self)
+		apply_mutators(Szorp.p1mutators)
 	else:
 		print("p2 mutators:")
 		color = Szorp.p2color
-		for i in Szorp.p2mutators:
-			print(i.name)
-			i.on_apply.call(self)
+		apply_mutators(Szorp.p2mutators)
 	sprite.self_modulate = color
 	attacks = {
 		"sword_neutral" : AttackData.new("sword_neutral", 1.4, Vector2(300,-200), 0.3),
@@ -44,16 +40,16 @@ func _ready() -> void:
 		"sword_dair" : AttackData.new("sword_dair", 1.2,Vector2(10,100), 0.15),
 		"clash" : AttackData.new("clash", 0,Vector2(400,-200), 0.2),
 		"sword_heavy_neutral1" : AttackData.new("sword_heavy_neutral1", 1, Vector2(100,-330), 0.5),
-		"sword_heavy_neutral2" : AttackData.new("sword_heavy_neutral2", 1, Vector2(500,0), 0.3),
-		"sword_heavy_side1" : AttackData.new("sword_heavy_side1", 1, Vector2(0,-60), 0.3),
-		"sword_heavy_side2" : AttackData.new("sword_heavy_side2", 1, Vector2(500,150), 0.5),
-		"sword_heavy_down1" : AttackData.new("sword_heavy_down1", 1, Vector2(500,0), 0.5),
-		"sword_heavy_down2" : AttackData.new("sword_heavy_down2", 1, Vector2(-500,0), 0.5),
+		"sword_heavy_neutral2" : AttackData.new("sword_heavy_neutral2", 1, Vector2(400,0), 0.3),
+		"sword_heavy_side1" : AttackData.new("sword_heavy_side1", 1, Vector2(0,-100), 0.3),
+		"sword_heavy_side2" : AttackData.new("sword_heavy_side2", 1, Vector2(350,50), 0.5),
+		"sword_heavy_down1" : AttackData.new("sword_heavy_down1", 1, Vector2(500,-100), 0.5),
+		"sword_heavy_down2" : AttackData.new("sword_heavy_down2", 1, Vector2(-500,-100), 0.5),
 	}
 
 
 var hp : float = 0
-
+@export var mutator_box_scene: PackedScene
 class AttackData:
 	var name : String
 	var dmg: float
@@ -144,6 +140,35 @@ var stinger = 0
 var stingTimer = -0.1
 var stingCooldown = 5
 
+#one_way thingy
+var down_time = 0.06 # how long to go down a one way coll
+var one_way_timer = 0
+var one_way_time = 0.1
+
+#trampoline
+var knock_back_time = 0.2
+var knock_back_timer = 0
+var trampoline_force = Vector2(0,0)
+
+var down = false # fast fallhoz
+
+func apply_mutators(mutators):
+	for mutator in mutators:
+		print(mutator.name)
+		mutator.on_apply.call(self)
+		var box = mutator_box_scene.instantiate()
+		box.setMutator(mutator)
+		if mutator.rarity == Szorp.Rarity.common:
+			print(mutator.name + ": common")
+			box.theme = preload("res://themes/common_theme.tres")
+		elif mutator.rarity == Szorp.Rarity.uncommon:
+			box.theme = preload("res://themes/uncommon_theme.tres")
+			print(mutator.name + ": uncommon")
+		elif mutator.rarity == Szorp.Rarity.rare:
+			box.theme = preload("res://themes/rare_theme.tres")
+			print(mutator.name + ": rare")
+		$CanvasLayer/Mutators.add_child(box)
+	return
 
 func _input(event):
 	if usingController:
@@ -155,13 +180,29 @@ func _input(event):
 		if Input.is_joy_button_pressed(controller_id, inputs["dash"]):
 			inputBuffers["p"+str(player_id)+"dash"] = input_buffer_time
 		justJumped = jump
+		#TODO: ONE WAY COLLISION
+		
+		
+		
+		
 	else:
 		for i in inputBuffers.keys():
 			if event.is_action_pressed(i):
 				inputBuffers[i] = input_buffer_time
+		if Input.is_action_just_pressed("p"+str(player_id)+"down"):
+			await get_tree().create_timer(down_time).timeout
+			if currentState == PlayerState.Idle or currentState == PlayerState.Run or currentState == PlayerState.Jump: 
+				collision_mask &= ~(1 << 3)
+			else:
+				collision_mask |= (1 << 3)
+				
+		if Input.is_action_just_released("p"+str(player_id)+"down"):
+			collision_mask |= (1 << 3)
+			await get_tree().create_timer(down_time).timeout
+			collision_mask |= (1 << 3)
+
 
 func apply_poison(dmg : float):
-	print("posions left: "+str(poisonsToBeAdded))
 	poisonsToBeAdded -=1
 	canApplyPoison = false
 	hp += dmg
@@ -174,16 +215,20 @@ func apply_poison(dmg : float):
 	return
 
 func _physics_process(delta: float) -> void:
+	if one_way_timer >= 0:
+		one_way_timer -= delta
+		if one_way_timer < 0:
+			collision_mask |= (1 << 3)
 	if poisonsToBeAdded > 0 and canApplyPoison:
 		apply_poison(poisonDamage)
 	if stingTimer > 0:
 		stingTimer-= delta
-		print("meg varj")
 	if stunned:
 		velocity.x = move_toward(velocity.x, 0, 1000 * delta)
 		velocity += get_gravity() * delta * gravityMultiplier
 		stunTimer -= delta
 		if stunTimer < 0:
+			knock_back_timer = 0
 			stunned = false
 			canMove = true
 			canAttack = true
@@ -197,6 +242,7 @@ func _physics_process(delta: float) -> void:
 			else:
 				change_state(PlayerState.Idle, "idle")
 		
+
 	else: #no stun
 		for key in inputBuffers.keys():
 			if inputBuffers[key] > 0:
@@ -204,7 +250,20 @@ func _physics_process(delta: float) -> void:
 		
 		# Add the gravity.
 		if not is_on_floor() and currentState != PlayerState.Dash:
-			velocity += get_gravity() * delta * gravityMultiplier
+			if usingController:
+				if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_Y) < (-1)*contiDeadzone:
+					down = true
+				else:
+					down = false
+			else:
+				if Input.is_action_pressed("p"+str(player_id)+"down"):
+					down = true
+				else:
+					down = false
+			velocity += get_gravity() * delta * gravityMultiplier * (2 if down else 1)
+			print("fastfall" if down else "no")
+			
+			
 	
 		if is_on_floor():
 			jumpCount = 0
@@ -222,6 +281,7 @@ func _physics_process(delta: float) -> void:
 			direction = Input.get_axis("p"+str(player_id)+"left", "p"+str(player_id)+"right")
 		if canDash and inputBuffers["p"+str(player_id)+"dash"] > 0 and currentState != PlayerState.Dash and currentState != PlayerState.Attack:
 			inputBuffers["p"+str(player_id)+"dash"] = 0
+			knock_back_timer = 0
 			dash()
 			return
 		if (direction > contiDeadzone or direction < (-1*contiDeadzone)) and canMove:
@@ -231,11 +291,34 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.x = move_toward(velocity.x, 0, speed)
 		
-		
+		if knock_back_timer > 0:
+			print("now")
+			knock_back_timer -= delta
+			velocity = trampoline_force
 		
 		#State Update
 		update_state(direction)
 	move_and_slide()
+
+func allHurtboxesOff():
+	$Sprite2D/sword_neutral/sword_neutral.disabled = true
+	$Sprite2D/sword_side/sword_side.disabled = true
+	$Sprite2D/sword_down/sword_down.disabled = true
+	$"Sprite2D/sword_down/1".disabled = true
+	$"Sprite2D/sword_down/2".disabled = true
+	$"Sprite2D/sword_nair/1".disabled = true
+	$"Sprite2D/sword_nair/2".disabled = true
+	$"Sprite2D/sword_nair/3".disabled = true
+	$"Sprite2D/sword_dair/1".disabled = true
+	$"Sprite2D/sword_heavy_neutral/1".disabled = true
+	$"Sprite2D/sword_heavy_neutral/2".disabled = true
+	$"Sprite2D/sword_heavy_side/1".disabled = true
+	$"Sprite2D/sword_heavy_side/2".disabled = true
+	$"Sprite2D/sword_heavy_side/finish1".disabled = true
+	$"Sprite2D/sword_heavy_side/finish2".disabled = true
+	$Sprite2D/dodge/dodge.disabled = true
+	$"Sprite2D/sword_heavy_down/1".disabled = true
+	$"Sprite2D/sword_heavy_down/2".disabled = true
 
 
 func die():
@@ -243,11 +326,15 @@ func die():
 	queue_free()
 
 func hit(data : AttackData, str : int, poison : float, stinger : int)->void:
+	allHurtboxesOff()
+	print(data.name)
 	if not hurtable:
 		return
 	else:
 		#stun mechanic
 		stunned = true
+		collision_mask &= ~(1 << 3)
+		one_way_timer = one_way_time
 		sprite.scale.x = 1 if data.force.x > 0 else -1
 		facingLeft = data.force.x < 0
 		change_state(PlayerState.Hurt, "hurt")
@@ -261,8 +348,7 @@ func hit(data : AttackData, str : int, poison : float, stinger : int)->void:
 			stunTimer = data.stunTime
 		else:
 			stunTimer = data.stunTime * (1 + hp / (defense*2))
-		print("stun: "+ str(stunTimer))
-		print("taken dmg:" + str(data.dmg * str))
+
 		hp += data.dmg * str / (defense / 100)
 		label.text = "PLAYER"+str(player_id)+" HP: "+str(hp)
 		if poison != 0:
@@ -273,7 +359,6 @@ func hit(data : AttackData, str : int, poison : float, stinger : int)->void:
 		return
 
 func sting(number : int):
-	print("stinging...")
 	await get_tree().create_timer(stunTimer).timeout
 	stingTimer = stingCooldown
 	for i in range(number):
@@ -287,6 +372,8 @@ func sting(number : int):
 
 func hit_opponent(body : Node2D, data : AttackData):
 	#TODO
+	allHurtboxesOff()
+	print("most én, p"+ str(player_id) + " megütöm " + body.name +"-t")
 	var force = Vector2(data.force.x * (-1 if facingLeft else 1), data.force.y)
 	# return AttackData.new(data.name, dmg, force, data.stunTime)
 	body.hit(AttackData.new(data.name, data.dmg, force, data.stunTime + (0 if data.name in stunExceptionAttacks else plusStun)), strength, poison, stinger)
@@ -319,6 +406,12 @@ func change_state(new_state: PlayerState, anim_name: String):
 	anim_player.play(anim_name)
 
 
+
+func trampoline(force : Vector2):
+	velocity = force
+	trampoline_force = force
+	knock_back_timer = knock_back_time
+
 func jump(force : Vector2) ->void:
 	velocity = force
 
@@ -336,7 +429,7 @@ var next = false
 func finishing():
 	finisher = true
 	var activeInput
-	print("finishing")
+
 	if usingController:
 		activeInput = "left" if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_X) < 0 else "right"
 	else:
@@ -417,6 +510,9 @@ func attacking()->void:
 		"sword_nair":
 			if 0.15 < t and t < 0.25:
 				velocity.y = -200
+		"sword_nair_heavy":
+			if 0.15 < t and t < 0.25:
+				velocity.y = -200
 
 
 
@@ -465,6 +561,7 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	print("anim ended")
 	if anim_name in noAttackAnims:
 		return
+	allHurtboxesOff()
 	if hitSomething or attackType.contains("air"):
 		canMove = true
 		canAttack = true
@@ -531,13 +628,14 @@ func dair_hit(body: Node2D) -> void:
 	if body.is_in_group("player"+str(player_id)):
 		return
 	hitSomething = true
-	velocity.y = -200
+	velocity.y = -300
 	# dmg and force
 	hit_opponent(body, attacks["sword_dair"])
 
-
 func clash():
+	allHurtboxesOff()
 	var clashForce = attacks["clash"].force
+	print("clashing, state: "+ str(currentState))
 	hit(AttackData.new("clash",0,Vector2(clashForce.x * (1 if facingLeft else -1), clashForce.y), 0.2), strength, 0, 0)
 	
 
@@ -554,7 +652,6 @@ func sword_heavy_neutral_hit(body: Node2D) -> void:
 		return
 	hitSomething = true
 	hitCount +=1
-	print("Heavy attack, "+ str(hitCount)+". hit")
 	# dmg and force
 	hit_opponent(body, attacks["sword_heavy_neutral"+str(hitCount)])
 	if (hitCount == 1):
@@ -565,11 +662,12 @@ func sword_heavy_neutral_hit(body: Node2D) -> void:
 
 
 func _on_sword_heavy_side_body_entered(body: Node2D) -> void:
+	
 	if body.is_in_group("player"+str(player_id)):
 		return
+	print("te budos cigany")
 	hitSomething = true
 	hitCount +=1
-	print(str(hitCount)+". hit")
 	if finisher:
 		hit_opponent(body, attacks["sword_heavy_side2"])
 	else:
@@ -587,7 +685,7 @@ func _on_dodge_body_entered(body: Node2D) -> void:
 		return
 	var dashIrany = Vector2(0,0)
 	dashIrany = Vector2(dashHorizontal * pushDodge * 1.2, dashVertical* pushDodge)
-	
+	print("ez egy dodge-os utes + state: " + str(currentState))
 	body.hit(AttackData.new("dodge", attackDodge, dashIrany, stunDodge), strength, poison, stinger)
 		
 

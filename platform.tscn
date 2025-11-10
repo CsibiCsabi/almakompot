@@ -1,5 +1,6 @@
-[gd_scene load_steps=129 format=3 uid="uid://yfkrwparwiy2"]
+[gd_scene load_steps=130 format=3 uid="uid://yfkrwparwiy2"]
 
+[ext_resource type="Script" uid="uid://ceahn64qw8lay" path="res://platform.gd" id="1_kwadk"]
 [ext_resource type="Script" uid="uid://bhm7muffwow13" path="res://karakter.gd" id="1_mhenq"]
 [ext_resource type="Texture2D" uid="uid://bs2v7nlme0ne6" path="res://anims/dash/dash.png" id="2_t7mtf"]
 [ext_resource type="Texture2D" uid="uid://d0lnbvaxgmnf" path="res://anims/idle/char_idle1.png" id="3_55de4"]
@@ -44,7 +45,6 @@
 [ext_resource type="Texture2D" uid="uid://dclk7cwugbnaw" path="res://anims/attack/sword/side/sword_side5.png" id="41_xyfwc"]
 [ext_resource type="Texture2D" uid="uid://bbs67bx4nxmdq" path="res://anims/char_hurt.png" id="42_t7mtf"]
 [ext_resource type="Texture2D" uid="uid://dwk34bhb3eydy" path="res://anims/attack/sword/down2/down1.png" id="43_5mn0h"]
-[ext_resource type="Texture2D" uid="uid://dhohhvby0p1uk" path="res://icon.svg" id="43_op6fc"]
 [ext_resource type="Script" uid="uid://bpqxmbkfn3ibp" path="res://clash.gd" id="43_t7mtf"]
 [ext_resource type="Texture2D" uid="uid://bik30bmitfxr7" path="res://anims/attack/sword/down2/down2.png" id="44_dgdyg"]
 [ext_resource type="Script" uid="uid://byleg8ljy0nwp" path="res://death_zone.gd" id="45_55de4"]
@@ -78,6 +78,7 @@
 [ext_resource type="Texture2D" uid="uid://bcexg8kgrensh" path="res://anims/attack/sword/heavy_down/sword_heavy_down5.png" id="72_we0n8"]
 [ext_resource type="Texture2D" uid="uid://gan571hlya6f" path="res://anims/attack/sword/heavy_down/sword_heavy_down6.png" id="73_ubhxk"]
 [ext_resource type="Texture2D" uid="uid://7tioew7poy7r" path="res://anims/attack/sword/heavy_down/sword_heavy_down7.png" id="74_xyfwc"]
+[ext_resource type="PackedScene" uid="uid://e6uftki4e27u" path="res://themes/mutator_box.tscn" id="77_xr4gn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jukud"]
 size = Vector2(15, 41)
@@ -547,6 +548,34 @@ tracks/1/keys = {
 "values": [false, true]
 }
 
+[sub_resource type="Animation" id="Animation_eup78"]
+resource_name = "sword_dair_heavy"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("14_cyfil"), ExtResource("15_ijp6i"), ExtResource("16_6pucu"), ExtResource("17_hipdk")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/sword_dair/1:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
 [sub_resource type="Animation" id="Animation_mex6o"]
 resource_name = "sword_down"
 length = 0.366
@@ -636,7 +665,7 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.16666667, 0.4, 0.53),
+"times": PackedFloat32Array(0.16666667, 0.4, 0.45),
 "transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [Vector2(0, -350)],
@@ -676,6 +705,58 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_jkv08"]
 resource_name = "sword_nair"
+length = 0.45
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("24_gyirh"), ExtResource("25_gx6xj"), ExtResource("26_fn8co"), ExtResource("27_ajtox"), ExtResource("28_6nhv8"), ExtResource("29_g8p30")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/sword_nair/1:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2, 0.266667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D/sword_nair/2:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.233333, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D/sword_nair/3:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_xr4gn"]
+resource_name = "sword_nair_heavy"
 length = 0.45
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -1064,10 +1145,12 @@ _data = {
 &"jump": SubResource("Animation_fuw8l"),
 &"run": SubResource("Animation_pd4ew"),
 &"sword_dair": SubResource("Animation_sw22d"),
+&"sword_dair_heavy": SubResource("Animation_eup78"),
 &"sword_down": SubResource("Animation_mex6o"),
 &"sword_down(regi)": SubResource("Animation_hvevt"),
 &"sword_down_heavy": SubResource("Animation_1eiaq"),
 &"sword_nair": SubResource("Animation_jkv08"),
+&"sword_nair_heavy": SubResource("Animation_xr4gn"),
 &"sword_neutral": SubResource("Animation_kuxmf"),
 &"sword_neutral_heavy": SubResource("Animation_sggt5"),
 &"sword_neutral_heavy2": SubResource("Animation_ijp6i"),
@@ -1136,33 +1219,38 @@ points = PackedVector2Array(-14, -41, 36, -35, 61, -10, 60, 27, 33, 47, 16, 29, 
 radius = 10.308826
 height = 32.823044
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f43kg"]
-size = Vector2(751, 41)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lluh6"]
-size = Vector2(4, 105)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5po4"]
 size = Vector2(2353, 57)
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_kwadk")
 
 [node name="p1" type="CharacterBody2D" parent="."]
-collision_mask = 4
+collision_mask = 12
 script = ExtResource("1_mhenq")
+mutator_box_scene = ExtResource("77_xr4gn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="p1"]
-position = Vector2(44.5, 40.5)
+position = Vector2(-1, 0.5)
 shape = SubResource("RectangleShape2D_jukud")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="p1"]
+layer = 2
 
 [node name="Label" type="Label" parent="p1/CanvasLayer"]
 offset_left = 27.0
 offset_top = 82.0
 offset_right = 141.0
 offset_bottom = 131.0
-text = "ALMAKOMPOT"
+text = "P1 HP: "
+
+[node name="Mutators" type="HBoxContainer" parent="p1/CanvasLayer"]
+offset_left = 937.0
+offset_top = 4.0
+offset_right = 1152.0
+offset_bottom = 44.0
+theme_override_constants/separation = 2
+alignment = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="p1"]
 libraries = {
@@ -1170,7 +1258,7 @@ libraries = {
 }
 
 [node name="Sprite2D" type="Sprite2D" parent="p1"]
-position = Vector2(45, 29)
+position = Vector2(-0.5, -11)
 
 [node name="sword_neutral" type="Area2D" parent="p1/Sprite2D"]
 position = Vector2(-45, -59)
@@ -1279,6 +1367,7 @@ rotation = 1.5707964
 scale = Vector2(1, 1.1599994)
 shape = SubResource("CapsuleShape2D_6nhv8")
 disabled = true
+debug_color = Color(0.972549, 0, 0.45490196, 1)
 
 [node name="2" type="CollisionShape2D" parent="p1/Sprite2D/sword_heavy_side"]
 position = Vector2(-4, 10)
@@ -1286,6 +1375,7 @@ rotation = -1.5707964
 scale = Vector2(0.68, 1)
 shape = SubResource("CapsuleShape2D_g8p30")
 disabled = true
+debug_color = Color(0.5568628, 1, 0.16078432, 1)
 
 [node name="finish1" type="CollisionShape2D" parent="p1/Sprite2D/sword_heavy_side"]
 position = Vector2(-2, -2)
@@ -1323,23 +1413,33 @@ shape = SubResource("CapsuleShape2D_xr4gn")
 disabled = true
 
 [node name="p2" type="CharacterBody2D" parent="."]
-position = Vector2(112, 4)
-collision_mask = 4
+position = Vector2(168, 6)
+collision_mask = 12
 script = ExtResource("1_mhenq")
+mutator_box_scene = ExtResource("77_xr4gn")
 player_id = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="p2"]
-position = Vector2(44.5, 40.5)
+position = Vector2(-1, 0.5)
 shape = SubResource("RectangleShape2D_jukud")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="p2"]
+layer = 2
 
 [node name="Label" type="Label" parent="p2/CanvasLayer"]
-offset_left = 26.0
-offset_top = 56.0
-offset_right = 140.0
-offset_bottom = 105.0
-text = "ALMAKOMPOT"
+offset_left = 27.0
+offset_top = 82.0
+offset_right = 141.0
+offset_bottom = 131.0
+text = "P1 HP: "
+
+[node name="Mutators" type="HBoxContainer" parent="p2/CanvasLayer"]
+offset_left = 937.0
+offset_top = 4.0
+offset_right = 1152.0
+offset_bottom = 44.0
+theme_override_constants/separation = 2
+alignment = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="p2"]
 libraries = {
@@ -1347,7 +1447,7 @@ libraries = {
 }
 
 [node name="Sprite2D" type="Sprite2D" parent="p2"]
-position = Vector2(45, 29)
+position = Vector2(-0.5, -11)
 
 [node name="sword_neutral" type="Area2D" parent="p2/Sprite2D"]
 position = Vector2(-45, -59)
@@ -1456,6 +1556,7 @@ rotation = 1.5707964
 scale = Vector2(1, 1.1599994)
 shape = SubResource("CapsuleShape2D_6nhv8")
 disabled = true
+debug_color = Color(0.972549, 0, 0.45490196, 1)
 
 [node name="2" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_side"]
 position = Vector2(-4, 10)
@@ -1463,6 +1564,7 @@ rotation = -1.5707964
 scale = Vector2(0.68, 1)
 shape = SubResource("CapsuleShape2D_g8p30")
 disabled = true
+debug_color = Color(0.5568628, 1, 0.16078432, 1)
 
 [node name="finish1" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_side"]
 position = Vector2(-2, -2)
@@ -1486,45 +1588,33 @@ rotation = -1.5707964
 shape = SubResource("CapsuleShape2D_qqi1l")
 disabled = true
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 4
+[node name="sword_heavy_down" type="Area2D" parent="p2/Sprite2D"]
 
-[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
-offset_left = -13.0
-offset_top = 116.0
-offset_right = 738.0
-offset_bottom = 156.0
-color = Color(0.228941, 0.000412192, 0.596825, 1)
+[node name="1" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_down"]
+shape = SubResource("ConvexPolygonShape2D_xr4gn")
+disabled = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(363.5, 136.5)
-shape = SubResource("RectangleShape2D_f43kg")
-
-[node name="hurt" type="Area2D" parent="."]
-position = Vector2(357, 160)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hurt"]
-position = Vector2(386, 59.5)
-shape = SubResource("RectangleShape2D_lluh6")
-
-[node name="Sprite2D" type="Sprite2D" parent="hurt"]
-modulate = Color(1, 0, 0, 1)
-position = Vector2(386, 60)
-scale = Vector2(0.028657, 0.834609)
-texture = ExtResource("43_op6fc")
+[node name="2" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_down"]
+position = Vector2(24, 33)
+rotation = 1.3575946
+scale = Vector2(1.883451, 2.821714)
+shape = SubResource("CapsuleShape2D_xr4gn")
+disabled = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(368, -46)
+position = Vector2(580, 324)
+zoom = Vector2(0.9, 0.9)
 
 [node name="DeathZone_floor" type="Area2D" parent="."]
+position = Vector2(186, 646)
 script = ExtResource("45_55de4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone_floor"]
-position = Vector2(379, 468)
+position = Vector2(446, 446)
 shape = SubResource("RectangleShape2D_h5po4")
 
 [node name="DeathZone_ceiling" type="Area2D" parent="."]
-position = Vector2(-2, -1178)
+position = Vector2(256, -1019)
 script = ExtResource("45_55de4")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone_ceiling"]
@@ -1532,7 +1622,7 @@ position = Vector2(379, 468)
 shape = SubResource("RectangleShape2D_h5po4")
 
 [node name="DeathZone_left" type="Area2D" parent="."]
-position = Vector2(-359, -728)
+position = Vector2(-105, -420)
 rotation = 1.5708
 script = ExtResource("45_55de4")
 
@@ -1541,7 +1631,7 @@ position = Vector2(379, 468)
 shape = SubResource("RectangleShape2D_h5po4")
 
 [node name="DeathZone_right" type="Area2D" parent="."]
-position = Vector2(2057, -688)
+position = Vector2(2311, -380)
 rotation = 1.5708
 script = ExtResource("45_55de4")
 
@@ -1549,12 +1639,7 @@ script = ExtResource("45_55de4")
 position = Vector2(379, 468)
 shape = SubResource("RectangleShape2D_h5po4")
 
-[node name="Button" type="Button" parent="."]
-offset_left = 115.0
-offset_top = 194.0
-offset_right = 123.0
-offset_bottom = 202.0
-text = "APPLY MUTATOR"
+[node name="MapContainer" type="Node2D" parent="."]
 
 [connection signal="animation_finished" from="p1/AnimationPlayer" to="p1" method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="p1/Sprite2D/sword_neutral" to="p1" method="_sword_neutral_hit"]
@@ -1575,8 +1660,8 @@ text = "APPLY MUTATOR"
 [connection signal="body_entered" from="p2/Sprite2D/sword_heavy_neutral" to="p2" method="sword_heavy_neutral_hit"]
 [connection signal="body_entered" from="p2/Sprite2D/sword_heavy_side" to="p2" method="_on_sword_heavy_side_body_entered"]
 [connection signal="body_entered" from="p2/Sprite2D/dodge" to="p2" method="_on_dodge_body_entered"]
+[connection signal="body_entered" from="p2/Sprite2D/sword_heavy_down" to="p2" method="_on_sword_heavy_down_body_entered"]
 [connection signal="body_entered" from="DeathZone_floor" to="DeathZone_floor" method="_on_body_entered"]
 [connection signal="body_entered" from="DeathZone_ceiling" to="DeathZone_ceiling" method="_on_body_entered"]
 [connection signal="body_entered" from="DeathZone_left" to="DeathZone_left" method="_on_body_entered"]
 [connection signal="body_entered" from="DeathZone_right" to="DeathZone_right" method="_on_body_entered"]
-[connection signal="pressed" from="Button" to="p1" method="_on_button_pressed"]

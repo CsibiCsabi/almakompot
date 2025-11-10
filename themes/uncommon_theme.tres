@@ -1,0 +1,69 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://cwt5m33peqd3l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_aewsf"]
+bg_color = Color(0.16862746, 0.16862746, 0.16862746, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.16078432, 0.5882353, 0.8117647, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0.16078432, 0.5882353, 0.8117647, 1)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nep74"]
+bg_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.16078432, 0.5882353, 0.8117647, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_63sll"]
+bg_color = Color(0.015686275, 0.011764706, 0.20392157, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+shadow_color = Color(0.16078432, 0.5882353, 0.8117647, 1)
+shadow_size = 5
+shadow_offset = Vector2(1, 1)
+
+[resource]
+resource_name = "bg"
+Button/styles/hover = SubResource("StyleBoxFlat_aewsf")
+Button/styles/normal = SubResource("StyleBoxFlat_nep74")
+HeaderLarge/colors/font_color = Color(0.16078432, 0.5882353, 0.8117647, 1)
+HeaderLarge/colors/font_outline_color = Color(0, 0, 0, 1)
+HeaderLarge/colors/font_shadow_color = Color(0.16078432, 0.5882353, 0.8117647, 1)
+HeaderLarge/constants/outline_size = 5
+HeaderLarge/constants/shadow_offset_x = 0
+HeaderLarge/constants/shadow_offset_y = 0
+HeaderLarge/constants/shadow_outline_size = 9
+HeaderLarge/font_sizes/font_size = 28
+HeaderMedium/colors/font_color = Color(1, 1, 1, 1)
+HeaderMedium/colors/font_outline_color = Color(0, 0, 0, 1)
+HeaderMedium/colors/font_shadow_color = Color(0.16078432, 0.5882353, 0.8117647, 1)
+HeaderMedium/constants/outline_size = 5
+HeaderMedium/constants/shadow_offset_x = 0
+HeaderMedium/constants/shadow_offset_y = 0
+HeaderMedium/constants/shadow_outline_size = 9
+HeaderMedium/font_sizes/font_size = 16
+HeaderSmall/colors/font_color = Color(1, 1, 1, 0.9019608)
+HeaderSmall/constants/shadow_offset_x = 2
+HeaderSmall/constants/shadow_offset_y = 2
+HeaderSmall/font_sizes/font_size = 14
+Panel/styles/panel = SubResource("StyleBoxFlat_63sll")

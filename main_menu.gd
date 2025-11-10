@@ -10,4 +10,15 @@ func _ready() -> void:
 
 
 func _on_button_pressed() -> void:
+	Szorp.setGamemode(Szorp.Gamemode.classic)
+	get_tree().change_scene_to_file("res://choose_character.tscn")
+
+
+func _on_infected_pressed() -> void:
+	Szorp.setGamemode(Szorp.Gamemode.infected)
+	get_tree().change_scene_to_file("res://choose_character.tscn")
+
+
+func _on_draft_pressed() -> void:
+	Szorp.setGamemode(Szorp.Gamemode.draft)
 	get_tree().change_scene_to_file("res://choose_character.tscn")
