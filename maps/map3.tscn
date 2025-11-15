@@ -1,9 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvx0t0uguin2f"]
+[gd_scene load_steps=4 format=3 uid="uid://bvx0t0uguin2f"]
 
-[ext_resource type="PackedScene" uid="uid://d1hsl4qfxgqm5" path="res://things/trampoline.tscn" id="1_i12de"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jkbfa"]
-size = Vector2(400, 5)
+[ext_resource type="PackedScene" uid="uid://e02vyvxbywxl" path="res://things/one_way_platform.tscn" id="1_i1k61"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i12de"]
 size = Vector2(95.25264, 90.57291)
@@ -13,43 +10,11 @@ size = Vector2(400, 51.161163)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="one_way" type="StaticBody2D" parent="."]
-position = Vector2(339, 385)
-collision_layer = 8
+[node name="one_way" parent="." instance=ExtResource("1_i1k61")]
+position = Vector2(342, 519)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="one_way"]
-position = Vector2(200, 3)
-shape = SubResource("RectangleShape2D_jkbfa")
-one_way_collision = true
-one_way_collision_margin = 7.0
-
-[node name="ColorRect" type="ColorRect" parent="one_way"]
-custom_minimum_size = Vector2(51, 0)
-offset_right = 400.0
-offset_bottom = 5.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(0.101960786, 0.2901961, 0.2901961, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="one_way2" type="StaticBody2D" parent="."]
-position = Vector2(341, 522)
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="one_way2"]
-position = Vector2(200, 3)
-shape = SubResource("RectangleShape2D_jkbfa")
-one_way_collision = true
-one_way_collision_margin = 7.0
-
-[node name="ColorRect" type="ColorRect" parent="one_way2"]
-custom_minimum_size = Vector2(51, 0)
-offset_right = 400.0
-offset_bottom = 5.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-color = Color(0.101960786, 0.2901961, 0.2901961, 1)
-metadata/_edit_use_anchors_ = true
+[node name="one_way3" parent="." instance=ExtResource("1_i1k61")]
+position = Vector2(342, 416)
 
 [node name="floor1" type="StaticBody2D" parent="."]
 position = Vector2(124, 479)
@@ -95,14 +60,3 @@ position = Vector2(159, 434)
 
 [node name="player2position" type="Marker2D" parent="."]
 position = Vector2(944, 429)
-
-[node name="trampoline" parent="." instance=ExtResource("1_i12de")]
-position = Vector2(467, 346)
-rotation = -0.59016126
-
-[node name="trampoline3" parent="." instance=ExtResource("1_i12de")]
-position = Vector2(619, 346.00003)
-rotation = 1.5610974
-
-[node name="trampoline2" parent="." instance=ExtResource("1_i12de")]
-position = Vector2(275, 463)

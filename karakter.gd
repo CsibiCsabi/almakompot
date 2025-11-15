@@ -19,7 +19,8 @@ func _ready() -> void:
 	inputs = {
 		"attack" : JOY_BUTTON_X,
 		"jump" : JOY_BUTTON_A,
-		"dash" : JOY_BUTTON_B
+		"dash" : JOY_BUTTON_LEFT_SHOULDER,
+		"heavy" : JOY_BUTTON_Y
 		}
 	
 	if player_id == 1:
@@ -30,10 +31,10 @@ func _ready() -> void:
 		print("p2 mutators:")
 		color = Szorp.p2color
 		apply_mutators(Szorp.p2mutators)
+	mySpeed = speed
 	sprite.self_modulate = color
 	attacks = {
 		"sword_neutral" : AttackData.new("sword_neutral", 1.4, Vector2(300,-200), 0.3),
-		
 		"sword_side" : AttackData.new("sword_side", 1,Vector2(400,-100), 0.2),
 		"sword_down" : AttackData.new("sword_down", 0.8,Vector2(200,-240), 0.5),
 		"sword_nair" : AttackData.new("sword_nair", 1,Vector2(200,-250), 0.3),
@@ -47,7 +48,9 @@ func _ready() -> void:
 		"sword_heavy_down2" : AttackData.new("sword_heavy_down2", 1, Vector2(-500,-100), 0.5),
 	}
 
-
+var strength : float = 10
+var defense : float = 100
+# (1 + hp / defense) the knockback multiplier
 var hp : float = 0
 @export var mutator_box_scene: PackedScene
 class AttackData:
@@ -111,8 +114,7 @@ var nairCount = 0
 var maxNairs = 2
 var noMultiplierAttacks = ["sword_down", "sword_heavy_neutral1"]
 var stunExceptionAttacks = ["sword_down", "sword_dair"]
-var strength : float = 10
-var defense : float = 100
+
 
 var noAttackAnims = ["run", "idle", "hurt", "jump", "dash"]
 
@@ -139,6 +141,11 @@ var canApplyPoison = true
 var stinger = 0
 var stingTimer = -0.1
 var stingCooldown = 5
+#slow
+var slow = 0 # your slow effect
+var mySpeed = speed 
+var slowTimer = 0
+var slowTime = 1
 
 #one_way thingy
 var down_time = 0.06 # how long to go down a one way coll
@@ -151,6 +158,7 @@ var knock_back_timer = 0
 var trampoline_force = Vector2(0,0)
 
 var down = false # fast fallhoz
+
 
 func apply_mutators(mutators):
 	for mutator in mutators:
@@ -173,33 +181,54 @@ func apply_mutators(mutators):
 func _input(event):
 	if usingController:
 		var jump = Input.is_joy_button_pressed(controller_id, inputs["jump"])
+		if Input.is_joy_button_pressed(controller_id, inputs["heavy"]):
+			inputBuffers["p"+str(player_id)+"heavy"] = input_buffer_time
 		if Input.is_joy_button_pressed(controller_id, inputs["attack"]):
 			inputBuffers["p"+str(player_id)+"attack"] = input_buffer_time
 		if jump and not justJumped:
 			inputBuffers["p"+str(player_id)+"jump"] = input_buffer_time
 		if Input.is_joy_button_pressed(controller_id, inputs["dash"]):
 			inputBuffers["p"+str(player_id)+"dash"] = input_buffer_time
+		#no doublejump exhaust
 		justJumped = jump
-		#TODO: ONE WAY COLLISION
-		
-		
-		
-		
+		#ONE WAY COLLISION
+		if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_Y) > contiDeadzone:
+			await get_tree().create_timer(down_time).timeout
+			if currentState == PlayerState.Idle or currentState == PlayerState.Run or currentState == PlayerState.Jump: 
+				collision_mask &= ~(1 << 3)
+			else:
+				collision_mask |= (1 << 3)
+		if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_Y) <  contiDeadzone:
+			collision_mask |= (1 << 3)
+			await get_tree().create_timer(down_time).timeout
+			collision_mask |= (1 << 3)
+			
+		#fastfall
+		if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_Y) > contiDeadzone:
+			down = true
+		else:
+			down = false
 	else:
 		for i in inputBuffers.keys():
 			if event.is_action_pressed(i):
 				inputBuffers[i] = input_buffer_time
+		#one_way_coll
 		if Input.is_action_just_pressed("p"+str(player_id)+"down"):
 			await get_tree().create_timer(down_time).timeout
 			if currentState == PlayerState.Idle or currentState == PlayerState.Run or currentState == PlayerState.Jump: 
 				collision_mask &= ~(1 << 3)
 			else:
 				collision_mask |= (1 << 3)
-				
+		
 		if Input.is_action_just_released("p"+str(player_id)+"down"):
 			collision_mask |= (1 << 3)
 			await get_tree().create_timer(down_time).timeout
 			collision_mask |= (1 << 3)
+		#fastfall
+		if Input.is_action_pressed("p"+str(player_id)+"down"):
+			down = true
+		else:
+			down = false
 
 
 func apply_poison(dmg : float):
@@ -211,7 +240,7 @@ func apply_poison(dmg : float):
 	sprite.self_modulate = color
 	await get_tree().create_timer(0.2).timeout
 	canApplyPoison = true
-	label.text = "PLAYER"+str(player_id)+" HP: "+str(hp)
+	label.text = "Player "+str(player_id)+" HP: "+str(hp)
 	return
 
 func _physics_process(delta: float) -> void:
@@ -223,6 +252,11 @@ func _physics_process(delta: float) -> void:
 		apply_poison(poisonDamage)
 	if stingTimer > 0:
 		stingTimer-= delta
+	if slowTimer > 0:
+		slowTimer -= delta
+		if slowTimer < 0:
+			speed = mySpeed
+			print("my speed: "+ str(speed))
 	if stunned:
 		velocity.x = move_toward(velocity.x, 0, 1000 * delta)
 		velocity += get_gravity() * delta * gravityMultiplier
@@ -250,21 +284,9 @@ func _physics_process(delta: float) -> void:
 		
 		# Add the gravity.
 		if not is_on_floor() and currentState != PlayerState.Dash:
-			if usingController:
-				if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_Y) < (-1)*contiDeadzone:
-					down = true
-				else:
-					down = false
-			else:
-				if Input.is_action_pressed("p"+str(player_id)+"down"):
-					down = true
-				else:
-					down = false
 			velocity += get_gravity() * delta * gravityMultiplier * (2 if down else 1)
-			print("fastfall" if down else "no")
-			
-			
-	
+
+
 		if is_on_floor():
 			jumpCount = 0
 			nairCount = 0
@@ -292,7 +314,6 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, speed)
 		
 		if knock_back_timer > 0:
-			print("now")
 			knock_back_timer -= delta
 			velocity = trampoline_force
 		
@@ -325,12 +346,18 @@ func die():
 	Szorp.i_lost(player_id)
 	queue_free()
 
-func hit(data : AttackData, str : int, poison : float, stinger : int)->void:
+func hit(data : AttackData, _str : int, _poison : float, _stinger : int, _slow : int)->void:
 	allHurtboxesOff()
 	print(data.name)
+	
 	if not hurtable:
 		return
 	else:
+		if _slow > 0:
+			
+			speed = mySpeed - _slow
+			print("my speed: "+ str(speed))
+			slowTimer = slowTime
 		#stun mechanic
 		stunned = true
 		collision_mask &= ~(1 << 3)
@@ -349,13 +376,13 @@ func hit(data : AttackData, str : int, poison : float, stinger : int)->void:
 		else:
 			stunTimer = data.stunTime * (1 + hp / (defense*2))
 
-		hp += data.dmg * str / (defense / 100)
-		label.text = "PLAYER"+str(player_id)+" HP: "+str(hp)
-		if poison != 0:
+		hp += data.dmg * _str / (defense / 100)
+		label.text = "Player "+str(player_id)+" HP: "+str(hp)
+		if _poison != 0:
 			poisonsToBeAdded = 4
-			poisonDamage = poison
-		if stinger != 0 and stingTimer < 0:
-			sting(stinger)
+			poisonDamage = _poison
+		if _stinger != 0 and stingTimer < 0:
+			sting(_stinger)
 		return
 
 func sting(number : int):
@@ -376,7 +403,7 @@ func hit_opponent(body : Node2D, data : AttackData):
 	print("most én, p"+ str(player_id) + " megütöm " + body.name +"-t")
 	var force = Vector2(data.force.x * (-1 if facingLeft else 1), data.force.y)
 	# return AttackData.new(data.name, dmg, force, data.stunTime)
-	body.hit(AttackData.new(data.name, data.dmg, force, data.stunTime + (0 if data.name in stunExceptionAttacks else plusStun)), strength, poison, stinger)
+	body.hit(AttackData.new(data.name, data.dmg, force, data.stunTime + (0 if data.name in stunExceptionAttacks else plusStun)), strength, poison, stinger, (1.5*slow if "heavy" in data.name else slow))
 
 
 
@@ -636,13 +663,13 @@ func clash():
 	allHurtboxesOff()
 	var clashForce = attacks["clash"].force
 	print("clashing, state: "+ str(currentState))
-	hit(AttackData.new("clash",0,Vector2(clashForce.x * (1 if facingLeft else -1), clashForce.y), 0.2), strength, 0, 0)
+	hit(AttackData.new("clash",0,Vector2(clashForce.x * (1 if facingLeft else -1), clashForce.y), 0.2), strength, 0, 0, 0)
 	
 
 
 func _on_button_pressed() -> void:
 	var random_key = Mutator_Library.all_mutators.keys().pick_random()
-	Mutator_Library.all_mutators["Pushy"].on_apply.call(self)
+	Mutator_Library.all_mutators["Sticky Sword"].on_apply.call(self)
 
 
 var hitCount = 0
@@ -685,8 +712,7 @@ func _on_dodge_body_entered(body: Node2D) -> void:
 		return
 	var dashIrany = Vector2(0,0)
 	dashIrany = Vector2(dashHorizontal * pushDodge * 1.2, dashVertical* pushDodge)
-	print("ez egy dodge-os utes + state: " + str(currentState))
-	body.hit(AttackData.new("dodge", attackDodge, dashIrany, stunDodge), strength, poison, stinger)
+	body.hit(AttackData.new("dodge", attackDodge, dashIrany, stunDodge), strength, 0, 0, 0)
 		
 
 

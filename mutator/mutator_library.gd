@@ -84,6 +84,12 @@ func add_built_in_mutators():
 			)
 	all_mutators[mutator.name] = mutator
 	
+	#slow 13.
+	mutator = Mutator.new("Sticky Sword", "Slow your opponent after hitting them!", "There's no escape!", rarity.rare, func(player):
+			player.slow += 100
+			print("majomparade")
+			)
+	all_mutators[mutator.name] = mutator
 	
 	
 	

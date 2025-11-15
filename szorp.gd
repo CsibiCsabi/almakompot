@@ -19,7 +19,9 @@ var p2points = 0
 var map_paths = [
 	"res://maps/map1.tscn",
 	"res://maps/map2.tscn",
-	"res://maps/map3.tscn"
+	"res://maps/map3.tscn",
+	"res://maps/trampoline_map_1.tscn",
+	"res://maps/trampoline_map_2.tscn"
 ]
 
 
@@ -59,7 +61,10 @@ func i_lost(_loser : int):
 	if p1points >= 4 or p2points >= 4:
 		get_tree().change_scene_to_file("res://end_screen.tscn")
 		return
-	get_tree().change_scene_to_file("res://select_mutator.tscn")
+	if chosen_gamemode == Gamemode.classic:
+		get_tree().change_scene_to_file("res://select_mutator.tscn")
+	elif chosen_gamemode == Gamemode.draft:
+		get_tree().change_scene_to_file("res://end_round.tscn")
 
 func next_round():
 	get_tree().change_scene_to_file("res://platform.tscn")

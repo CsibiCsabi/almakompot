@@ -6,7 +6,7 @@ extends Control
 
 func _ready() -> void:
 	$MarginContainer/VBoxContainer/player.text = "Player " + str(Szorp.loser) + "'s choice!"
-	show_random_mutators(14)
+	show_random_mutators(12)
 
 func show_random_mutators(count : int):
 	var keys = Mutator_Library.all_mutators.keys()

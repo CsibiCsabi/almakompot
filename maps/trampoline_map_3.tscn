@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4i1nn1aposk5"]
+
+[ext_resource type="PackedScene" uid="uid://e02vyvxbywxl" path="res://things/one_way_platform.tscn" id="1_4cvpf"]
+[ext_resource type="PackedScene" uid="uid://d1hsl4qfxgqm5" path="res://things/trampoline.tscn" id="2_g6y5r"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="player1position" type="Marker2D" parent="."]
+position = Vector2(177, 211)
+
+[node name="player2position" type="Marker2D" parent="."]
+position = Vector2(957, 220)
+
+[node name="one_way" parent="." instance=ExtResource("1_4cvpf")]
+position = Vector2(121, 289)
+scale = Vector2(2.2, 1)
+
+[node name="trampoline5" parent="." instance=ExtResource("2_g6y5r")]
+position = Vector2(400, 551)
+scale = Vector2(2.6799989, 1)
+str = 400
+
+[node name="trampoline6" parent="." instance=ExtResource("2_g6y5r")]
+position = Vector2(733, 551)
+scale = Vector2(2.6799989, 1)
+str = 400
+
+[node name="trampoline2" parent="." instance=ExtResource("2_g6y5r")]
+position = Vector2(145.00009, 463)
+rotation = 0.90931654
+scale = Vector2(2.6400003, 1)
+
+[node name="trampoline3" parent="." instance=ExtResource("2_g6y5r")]
+position = Vector2(979.00006, 463)
+rotation = -0.90931654
+scale = Vector2(2.6400003, 1)
+
+[node name="trampoline4" parent="." instance=ExtResource("2_g6y5r")]
+position = Vector2(979.00006, 463)
+rotation = -0.90931654
+scale = Vector2(2.6400003, 1)

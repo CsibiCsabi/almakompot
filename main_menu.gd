@@ -22,3 +22,8 @@ func _on_infected_pressed() -> void:
 func _on_draft_pressed() -> void:
 	Szorp.setGamemode(Szorp.Gamemode.draft)
 	get_tree().change_scene_to_file("res://choose_character.tscn")
+
+
+func _on_settings_pressed() -> void:
+	return
+	

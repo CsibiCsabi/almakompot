@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://8720uhkvvnqh"]
+[gd_scene load_steps=6 format=3 uid="uid://8720uhkvvnqh"]
 
 [ext_resource type="Script" uid="uid://0f0lrcokqpci" path="res://choose_character.gd" id="1_qjxgw"]
 [ext_resource type="Texture2D" uid="uid://d0lnbvaxgmnf" path="res://anims/idle/char_idle1.png" id="2_w00km"]
 [ext_resource type="Script" uid="uid://w723bid87bpp" path="res://preview.gd" id="3_fj7td"]
+[ext_resource type="Theme" uid="uid://cti7blchf5c0b" path="res://themes/buttonThemes/button_theme.tres" id="4_g528i"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_fj7td"]
 font_size = 30
@@ -39,24 +40,31 @@ offset_bottom = 69.0
 scale = Vector2(0.545, 0.545)
 
 [node name="white" type="Button" parent="preview1/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-text = "white"
+theme = ExtResource("4_g528i")
 
 [node name="red" type="Button" parent="preview1/HBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-text = "red"
+size_flags_vertical = 0
+theme = ExtResource("4_g528i")
 
 [node name="blue" type="Button" parent="preview1/HBoxContainer"]
+modulate = Color(0.011764706, 0.007843138, 0.4509804, 1)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-text = "blue
-"
+theme = ExtResource("4_g528i")
 
 [node name="green" type="Button" parent="preview1/HBoxContainer"]
+modulate = Color(0, 0.60784316, 0.3882353, 1)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-text = "green"
+theme = ExtResource("4_g528i")
 
 [node name="preview2" type="Sprite2D" parent="."]
-position = Vector2(789, 250)
+position = Vector2(741, 249)
 scale = Vector2(2, 2)
 texture = ExtResource("2_w00km")
 script = ExtResource("3_fj7td")
@@ -70,21 +78,35 @@ offset_bottom = 69.0
 scale = Vector2(0.545, 0.545)
 
 [node name="white" type="Button" parent="preview2/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-text = "white"
+theme = ExtResource("4_g528i")
 
 [node name="red" type="Button" parent="preview2/HBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-text = "red"
+size_flags_vertical = 0
+theme = ExtResource("4_g528i")
 
 [node name="blue" type="Button" parent="preview2/HBoxContainer"]
+modulate = Color(0.011764706, 0.007843138, 0.4509804, 1)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-text = "blue
-"
+theme = ExtResource("4_g528i")
 
 [node name="green" type="Button" parent="preview2/HBoxContainer"]
+modulate = Color(0, 0.60784316, 0.3882353, 1)
+custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
-text = "green"
+theme = ExtResource("4_g528i")
+
+[node name="back" type="Button" parent="."]
+offset_left = 9.0
+offset_top = 610.0
+offset_right = 54.0
+offset_bottom = 641.0
+text = "Back"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="preview1/HBoxContainer/white" to="preview1" method="_on_white_pressed"]
@@ -95,3 +117,4 @@ text = "green"
 [connection signal="pressed" from="preview2/HBoxContainer/red" to="preview2" method="_on_red_pressed"]
 [connection signal="pressed" from="preview2/HBoxContainer/blue" to="preview2" method="_on_blue_pressed"]
 [connection signal="pressed" from="preview2/HBoxContainer/green" to="preview2" method="_on_green_pressed"]
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]

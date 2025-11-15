@@ -1,4 +1,4 @@
-[gd_scene load_steps=130 format=3 uid="uid://yfkrwparwiy2"]
+[gd_scene load_steps=131 format=3 uid="uid://yfkrwparwiy2"]
 
 [ext_resource type="Script" uid="uid://ceahn64qw8lay" path="res://platform.gd" id="1_kwadk"]
 [ext_resource type="Script" uid="uid://bhm7muffwow13" path="res://karakter.gd" id="1_mhenq"]
@@ -79,6 +79,7 @@
 [ext_resource type="Texture2D" uid="uid://gan571hlya6f" path="res://anims/attack/sword/heavy_down/sword_heavy_down6.png" id="73_ubhxk"]
 [ext_resource type="Texture2D" uid="uid://7tioew7poy7r" path="res://anims/attack/sword/heavy_down/sword_heavy_down7.png" id="74_xyfwc"]
 [ext_resource type="PackedScene" uid="uid://e6uftki4e27u" path="res://themes/mutator_box.tscn" id="77_xr4gn"]
+[ext_resource type="Script" uid="uid://cypovvvsrcxab" path="res://pause_menu.gd" id="80_oeb0b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jukud"]
 size = Vector2(15, 41)
@@ -1242,9 +1243,10 @@ offset_left = 27.0
 offset_top = 82.0
 offset_right = 141.0
 offset_bottom = 131.0
-text = "P1 HP: "
+text = "Player 1 HP: "
 
 [node name="Mutators" type="HBoxContainer" parent="p1/CanvasLayer"]
+z_index = -2
 offset_left = 937.0
 offset_top = 4.0
 offset_right = 1152.0
@@ -1424,20 +1426,19 @@ position = Vector2(-1, 0.5)
 shape = SubResource("RectangleShape2D_jukud")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="p2"]
-layer = 2
 
 [node name="Label" type="Label" parent="p2/CanvasLayer"]
-offset_left = 27.0
-offset_top = 82.0
-offset_right = 141.0
-offset_bottom = 131.0
-text = "P1 HP: "
+offset_left = 25.0
+offset_top = 121.0
+offset_right = 139.0
+offset_bottom = 170.0
+text = "Player 2 HP: "
 
 [node name="Mutators" type="HBoxContainer" parent="p2/CanvasLayer"]
-offset_left = 937.0
-offset_top = 4.0
-offset_right = 1152.0
-offset_bottom = 44.0
+offset_left = 939.0
+offset_top = 74.0
+offset_right = 1154.0
+offset_bottom = 114.0
 theme_override_constants/separation = 2
 alignment = 2
 
@@ -1641,6 +1642,59 @@ shape = SubResource("RectangleShape2D_h5po4")
 
 [node name="MapContainer" type="Node2D" parent="."]
 
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(100, 30)
+offset_left = 35.0
+offset_top = 53.0
+offset_right = 43.0
+offset_bottom = 61.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
+
+[node name="PauseMenu" type="Control" parent="CanvasLayer"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("80_oeb0b")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.011764706, 0.011764706, 0.011764706, 0.7176471)
+
+[node name="Label" type="Label" parent="CanvasLayer/PauseMenu"]
+layout_mode = 0
+offset_left = 514.0
+offset_top = 62.0
+offset_right = 639.0
+offset_bottom = 85.0
+text = "GAME PAUSED"
+
+[node name="Resume" type="Button" parent="CanvasLayer/PauseMenu"]
+layout_mode = 0
+offset_left = 544.0
+offset_top = 477.0
+offset_right = 616.0
+offset_bottom = 508.0
+text = "RESUME"
+
+[node name="MainMenu" type="Button" parent="CanvasLayer/PauseMenu"]
+layout_mode = 0
+offset_left = 524.0
+offset_top = 548.0
+offset_right = 641.0
+offset_bottom = 579.0
+text = "MAIN MENU"
+
 [connection signal="animation_finished" from="p1/AnimationPlayer" to="p1" method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="p1/Sprite2D/sword_neutral" to="p1" method="_sword_neutral_hit"]
 [connection signal="body_entered" from="p1/Sprite2D/sword_side" to="p1" method="_sword_side_hit"]
@@ -1665,3 +1719,6 @@ shape = SubResource("RectangleShape2D_h5po4")
 [connection signal="body_entered" from="DeathZone_ceiling" to="DeathZone_ceiling" method="_on_body_entered"]
 [connection signal="body_entered" from="DeathZone_left" to="DeathZone_left" method="_on_body_entered"]
 [connection signal="body_entered" from="DeathZone_right" to="DeathZone_right" method="_on_body_entered"]
+[connection signal="pressed" from="Button" to="p1" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/Resume" to="CanvasLayer/PauseMenu" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/MainMenu" to="CanvasLayer/PauseMenu" method="_on_main_menu_pressed"]
