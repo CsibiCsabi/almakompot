@@ -1,4 +1,4 @@
-[gd_scene load_steps=133 format=3 uid="uid://yfkrwparwiy2"]
+[gd_scene load_steps=132 format=3 uid="uid://yfkrwparwiy2"]
 
 [ext_resource type="Script" uid="uid://ceahn64qw8lay" path="res://platform.gd" id="1_kwadk"]
 [ext_resource type="Script" uid="uid://bhm7muffwow13" path="res://karakter.gd" id="1_mhenq"]
@@ -79,7 +79,6 @@
 [ext_resource type="Texture2D" uid="uid://gan571hlya6f" path="res://anims/attack/sword/heavy_down/sword_heavy_down6.png" id="73_ubhxk"]
 [ext_resource type="Texture2D" uid="uid://7tioew7poy7r" path="res://anims/attack/sword/heavy_down/sword_heavy_down7.png" id="74_xyfwc"]
 [ext_resource type="PackedScene" uid="uid://e6uftki4e27u" path="res://themes/mutator_box.tscn" id="77_xr4gn"]
-[ext_resource type="Script" uid="uid://dsfm0j8foayol" path="res://cameraController.gd" id="79_ubhxk"]
 [ext_resource type="Script" uid="uid://cypovvvsrcxab" path="res://pause_menu.gd" id="80_oeb0b"]
 [ext_resource type="Theme" uid="uid://casn4am21hdpi" path="res://themes/buttonThemes/basic_button.tres" id="81_we0n8"]
 
@@ -953,7 +952,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_gyirh"]
 resource_name = "sword_side_heavy"
-length = 0.4
+length = 0.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -1015,7 +1014,7 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.09, 0.29, 0.46666667, 0.6),
+"times": PackedFloat32Array(0.09, 0.29, 0.49, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [],
@@ -1130,17 +1129,11 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.09, 0.23333333, 0.29),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0.09),
+"transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"side_teleport"
-}, {
-"args": [],
-"method": &"next_finish"
-}, {
-"args": [85],
-"method": &"teleport_right"
 }]
 }
 
@@ -1233,7 +1226,6 @@ size = Vector2(2353, 57)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_kwadk")
-mutator_box_scene = ExtResource("77_xr4gn")
 
 [node name="p1" type="CharacterBody2D" parent="."]
 collision_mask = 12
@@ -1256,10 +1248,10 @@ text = "Player 1 HP: "
 
 [node name="Mutators" type="HBoxContainer" parent="p1/CanvasLayer"]
 z_index = -2
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 40.0
-grow_horizontal = 2
+offset_left = 937.0
+offset_top = 4.0
+offset_right = 1152.0
+offset_bottom = 44.0
 theme_override_constants/separation = 2
 alignment = 2
 
@@ -1424,6 +1416,7 @@ shape = SubResource("CapsuleShape2D_xr4gn")
 disabled = true
 
 [node name="p2" type="CharacterBody2D" parent="."]
+position = Vector2(168, 6)
 collision_mask = 12
 script = ExtResource("1_mhenq")
 mutator_box_scene = ExtResource("77_xr4gn")
@@ -1437,18 +1430,16 @@ shape = SubResource("RectangleShape2D_jukud")
 
 [node name="Label" type="Label" parent="p2/CanvasLayer"]
 offset_left = 25.0
-offset_top = 110.0
+offset_top = 121.0
 offset_right = 139.0
-offset_bottom = 159.0
-text = "Player 1 HP: "
+offset_bottom = 170.0
+text = "Player 2 HP: "
 
 [node name="Mutators" type="HBoxContainer" parent="p2/CanvasLayer"]
-z_index = -2
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 55.0
-offset_bottom = 95.0
-grow_horizontal = 2
+offset_left = 939.0
+offset_top = 74.0
+offset_right = 1154.0
+offset_bottom = 114.0
 theme_override_constants/separation = 2
 alignment = 2
 
@@ -1560,6 +1551,7 @@ shape = SubResource("ConvexPolygonShape2D_hipdk")
 disabled = true
 
 [node name="sword_heavy_side" type="Area2D" parent="p2/Sprite2D"]
+script = ExtResource("43_t7mtf")
 
 [node name="1" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_side"]
 position = Vector2(5, 8)
@@ -1600,6 +1592,7 @@ shape = SubResource("CapsuleShape2D_qqi1l")
 disabled = true
 
 [node name="sword_heavy_down" type="Area2D" parent="p2/Sprite2D"]
+script = ExtResource("43_t7mtf")
 
 [node name="1" type="CollisionShape2D" parent="p2/Sprite2D/sword_heavy_down"]
 shape = SubResource("ConvexPolygonShape2D_xr4gn")
@@ -1612,12 +1605,9 @@ scale = Vector2(1.883451, 2.821714)
 shape = SubResource("CapsuleShape2D_xr4gn")
 disabled = true
 
-[node name="Camera2D" type="Camera2D" parent="." node_paths=PackedStringArray("p1", "p2")]
+[node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(580, 324)
 zoom = Vector2(0.9, 0.9)
-script = ExtResource("79_ubhxk")
-p1 = NodePath("../p1")
-p2 = NodePath("")
 
 [node name="DeathZone_floor" type="Area2D" parent="."]
 position = Vector2(186, 646)
@@ -1657,10 +1647,10 @@ shape = SubResource("RectangleShape2D_h5po4")
 
 [node name="Button" type="Button" parent="."]
 custom_minimum_size = Vector2(100, 30)
-offset_left = 1812.0
-offset_top = 229.0
-offset_right = 1912.0
-offset_bottom = 259.0
+offset_left = 35.0
+offset_top = 53.0
+offset_right = 43.0
+offset_bottom = 61.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
@@ -1721,13 +1711,6 @@ size_flags_vertical = 2
 theme = ExtResource("81_we0n8")
 text = "LEAVE
 "
-
-[node name="Mutators" type="HBoxContainer" parent="CanvasLayer"]
-offset_left = 940.0
-offset_top = 490.0
-offset_right = 1140.0
-offset_bottom = 530.0
-alignment = 2
 
 [connection signal="animation_finished" from="p1/AnimationPlayer" to="p1" method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="p1/Sprite2D/sword_neutral" to="p1" method="_sword_neutral_hit"]

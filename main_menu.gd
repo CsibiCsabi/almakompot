@@ -25,5 +25,11 @@ func _on_draft_pressed() -> void:
 
 
 func _on_settings_pressed() -> void:
+	get_tree().change_scene_to_file("res://settings.tscn")
 	return
 	
+
+
+func _on_custom_pressed() -> void:
+	Szorp.setGamemode(Szorp.Gamemode.custom)
+	get_tree().change_scene_to_file("res://custom.tscn")

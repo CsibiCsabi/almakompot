@@ -5,10 +5,15 @@ var p2color : Color
 var winnerText : String
 var p1mutators : Array[Mutator] = []
 var p2mutators : Array[Mutator] = []
+var mapMutator : Mutator
 var loser = 1
 var p1points = 0
 var p2points = 0
-
+var infectedMaps = false
+var round = 0
+var rounds = 5
+var starterPowerUps = 0
+var roundEndMutators = true
 #COLLISION LAYERS: 
 #1 - p1 
 #2 - p2
@@ -27,19 +32,44 @@ var map_paths = [
 
 #mutatorhoz
 enum Rarity {common, uncommon, rare}
-enum Gamemode {classic, draft, infected}
+enum Gamemode {classic, draft, infected, custom}
 var chosen_gamemode : Gamemode
+var customInfected = false
 
 func newGame():
+	round = 0
 	p1points = 0
 	p2points = 0
 	p1mutators = []
 	p2mutators = []
 	match chosen_gamemode:
 		Gamemode.classic:
-			get_tree().change_scene_to_file("res://platform.tscn")
+			starterPowerUps = 0
+			rounds = 7
+			infectedMaps = false
+			roundEndMutators = true
+			next_round()
 		Gamemode.draft:
-			get_tree().change_scene_to_file("res://draft_scene.tscn")
+			starterPowerUps = 4
+			rounds = 5
+			infectedMaps = false
+			roundEndMutators = false
+		Gamemode.infected:
+			starterPowerUps = 0
+			rounds = 7
+			infectedMaps = true
+			roundEndMutators = true
+
+	if starterPowerUps > 0:
+		get_tree().change_scene_to_file("res://draft_scene.tscn")
+	else:
+		next_round()
+		
+func newMapMutator():
+	var keys = Mutator_Library.all_mutators.keys()
+	keys.shuffle()
+	mapMutator = Mutator_Library.all_mutators[keys[0]]
+	print("a map mutatora: "+ mapMutator.name)
 
 
 func setGamemode(mode : Gamemode):
@@ -58,13 +88,26 @@ func i_lost(_loser : int):
 	else:
 		p1points += 1
 	winnerText = "Player "+( "1" if _loser == 2 else "2" )+ " won!"
-	if p1points >= 4 or p2points >= 4:
+	if p1points >= (rounds/2+1) or p2points >= (rounds/2+1):
+		#end game stuff
+		end_game_stuff()
 		get_tree().change_scene_to_file("res://end_screen.tscn")
 		return
-	if chosen_gamemode == Gamemode.classic:
+	
+	if roundEndMutators:
 		get_tree().change_scene_to_file("res://select_mutator.tscn")
-	elif chosen_gamemode == Gamemode.draft:
+	else:
 		get_tree().change_scene_to_file("res://end_round.tscn")
 
+
+
+
+func end_game_stuff():
+	roundEndMutators = true
+	infectedMaps = false
+	starterPowerUps = 0
+	rounds = 5
+
 func next_round():
+	round += 1
 	get_tree().change_scene_to_file("res://platform.tscn")

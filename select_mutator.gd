@@ -35,4 +35,4 @@ func _on_mutator_selected(mutator : Mutator):
 		Szorp.p1mutators.append(mutator)
 	else:
 		Szorp.p2mutators.append(mutator)
-	get_tree().change_scene_to_file("res://platform.tscn")
+	Szorp.next_round()

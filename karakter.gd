@@ -11,11 +11,10 @@ func _ready() -> void:
 	}
 	#controllers
 	var controllers = Input.get_connected_joypads()
-	print(controllers)
+
 	if controllers.size() >= player_id:
 		controller_id = controllers[player_id-1] 
 		usingController = true
-		print("lett connectelve")
 	inputs = {
 		"attack" : JOY_BUTTON_X,
 		"jump" : JOY_BUTTON_A,
@@ -24,11 +23,9 @@ func _ready() -> void:
 		}
 	
 	if player_id == 1:
-		print("p1 mutators:")
 		color = Szorp.p1color
 		apply_mutators(Szorp.p1mutators)
 	else:
-		print("p2 mutators:")
 		color = Szorp.p2color
 		apply_mutators(Szorp.p2mutators)
 	mySpeed = speed
@@ -37,16 +34,20 @@ func _ready() -> void:
 		"sword_neutral" : AttackData.new("sword_neutral", 1.4, Vector2(300,-200), 0.3),
 		"sword_side" : AttackData.new("sword_side", 1,Vector2(400,-100), 0.2),
 		"sword_down" : AttackData.new("sword_down", 0.8,Vector2(200,-240), 0.5),
-		"sword_nair" : AttackData.new("sword_nair", 1,Vector2(200,-250), 0.3),
+		"sword_nair" : AttackData.new("sword_nair", 1,Vector2(200,-250), 0.25),
 		"sword_dair" : AttackData.new("sword_dair", 1.2,Vector2(10,100), 0.15),
 		"clash" : AttackData.new("clash", 0,Vector2(400,-200), 0.2),
-		"sword_heavy_neutral1" : AttackData.new("sword_heavy_neutral1", 1, Vector2(100,-330), 0.5),
-		"sword_heavy_neutral2" : AttackData.new("sword_heavy_neutral2", 1, Vector2(400,0), 0.3),
-		"sword_heavy_side1" : AttackData.new("sword_heavy_side1", 1, Vector2(0,-100), 0.3),
-		"sword_heavy_side2" : AttackData.new("sword_heavy_side2", 1, Vector2(350,50), 0.5),
-		"sword_heavy_down1" : AttackData.new("sword_heavy_down1", 1, Vector2(500,-100), 0.5),
-		"sword_heavy_down2" : AttackData.new("sword_heavy_down2", 1, Vector2(-500,-100), 0.5),
+		"sword_heavy_neutral1" : AttackData.new("sword_heavy_neutral1", 1.1, Vector2(100,-330), 0.5),
+		"sword_heavy_neutral2" : AttackData.new("sword_heavy_neutral2", 1.5, Vector2(400,0), 0.3),
+		"sword_heavy_side1" : AttackData.new("sword_heavy_side1", 0.6, Vector2(0,-100), 0.3),
+		"sword_heavy_side2" : AttackData.new("sword_heavy_side2", 1.2, Vector2(350,50), 0.35),
+		"sword_heavy_down1" : AttackData.new("sword_heavy_down1", 1.7, Vector2(500,-100), 0.5),
+		"sword_heavy_down2" : AttackData.new("sword_heavy_down2", 1.7, Vector2(-500,-100), 0.5),
 	}
+
+var noMultiplierAttacks = ["sword_down", "sword_heavy_neutral1", "sword_heavy_side1" ]
+var stunExceptionAttacks = ["sword_down", "sword_dair"]
+
 
 var strength : float = 10
 var defense : float = 100
@@ -112,8 +113,7 @@ var justJumped = false
 var inputBuffers = {}
 var nairCount = 0
 var maxNairs = 2
-var noMultiplierAttacks = ["sword_down", "sword_heavy_neutral1"]
-var stunExceptionAttacks = ["sword_down", "sword_dair"]
+
 
 
 var noAttackAnims = ["run", "idle", "hurt", "jump", "dash"]
@@ -159,24 +159,22 @@ var trampoline_force = Vector2(0,0)
 
 var down = false # fast fallhoz
 
+func apply_map_mutator(mutator : Mutator):
+	mutator.on_apply.call(self)
+	print(str(player_id)+ ". applyoltuk a ap mutatort: "+mutator.name)
 
 func apply_mutators(mutators):
 	for mutator in mutators:
-		print(mutator.name)
 		mutator.on_apply.call(self)
 		var box = mutator_box_scene.instantiate()
 		box.setMutator(mutator)
 		if mutator.rarity == Szorp.Rarity.common:
-			print(mutator.name + ": common")
 			box.theme = preload("res://themes/common_theme.tres")
 		elif mutator.rarity == Szorp.Rarity.uncommon:
 			box.theme = preload("res://themes/uncommon_theme.tres")
-			print(mutator.name + ": uncommon")
 		elif mutator.rarity == Szorp.Rarity.rare:
 			box.theme = preload("res://themes/rare_theme.tres")
-			print(mutator.name + ": rare")
 		$CanvasLayer/Mutators.add_child(box)
-	return
 
 func _input(event):
 	if usingController:
@@ -256,7 +254,6 @@ func _physics_process(delta: float) -> void:
 		slowTimer -= delta
 		if slowTimer < 0:
 			speed = mySpeed
-			print("my speed: "+ str(speed))
 	if stunned:
 		velocity.x = move_toward(velocity.x, 0, 1000 * delta)
 		velocity += get_gravity() * delta * gravityMultiplier
@@ -347,16 +344,16 @@ func die():
 	queue_free()
 
 func hit(data : AttackData, _str : int, _poison : float, _stinger : int, _slow : int)->void:
+	hitCount = 0
 	allHurtboxesOff()
-	print(data.name)
 	
 	if not hurtable:
 		return
 	else:
+		change_state(PlayerState.Hurt, "hurt")
 		if _slow > 0:
 			
 			speed = mySpeed - _slow
-			print("my speed: "+ str(speed))
 			slowTimer = slowTime
 		#stun mechanic
 		stunned = true
@@ -364,7 +361,7 @@ func hit(data : AttackData, _str : int, _poison : float, _stinger : int, _slow :
 		one_way_timer = one_way_time
 		sprite.scale.x = 1 if data.force.x > 0 else -1
 		facingLeft = data.force.x < 0
-		change_state(PlayerState.Hurt, "hurt")
+		
 		if data.name in noMultiplierAttacks:
 			velocity = data.force
 		else:
@@ -400,7 +397,7 @@ func sting(number : int):
 func hit_opponent(body : Node2D, data : AttackData):
 	#TODO
 	allHurtboxesOff()
-	print("most én, p"+ str(player_id) + " megütöm " + body.name +"-t")
+	print("most én, p"+ str(player_id) + " megütöm " + body.name +"-t, atak: "+ data.name)
 	var force = Vector2(data.force.x * (-1 if facingLeft else 1), data.force.y)
 	# return AttackData.new(data.name, dmg, force, data.stunTime)
 	body.hit(AttackData.new(data.name, data.dmg, force, data.stunTime + (0 if data.name in stunExceptionAttacks else plusStun)), strength, poison, stinger, (1.5*slow if "heavy" in data.name else slow))
@@ -445,6 +442,13 @@ func jump(force : Vector2) ->void:
 func smash():
 	velocity = Vector2(250,500)
 
+func teleport_right(i : int ):
+	position.x += -i if facingLeft else i
+
+
+func teleport_left(i : int ):
+	position.x -= -i if facingLeft else i
+
 func side_teleport():
 	position.x += -50 if facingLeft else 50
 
@@ -453,8 +457,12 @@ func back_teleport():
 
 var finisher = false
 var next = false
-func finishing():
+func next_finish():
+	facingLeft = not facingLeft
 	finisher = true
+
+
+func finishing():
 	var activeInput
 
 	if usingController:
@@ -462,6 +470,7 @@ func finishing():
 	else:
 		activeInput = "left" if Input.get_axis("p"+str(player_id)+"left", "p"+str(player_id)+"right") < 0 else "right"
 	if (facingLeft and activeInput == "left") or (not facingLeft and activeInput == "right"):
+		finisher = true
 		anim_player.play("sword_side_heavy_finish1")
 	else:
 		finisher = false
@@ -472,9 +481,21 @@ var second = false
 func down_heavy_2():
 	second = true
 
+func monitor_area2D(boo : bool):
+	print("monitoring: "+ str(boo))
+	$Sprite2D/sword_neutral.monitoring = boo
+	$Sprite2D/sword_side.monitoring = boo
+	$Sprite2D/sword_down.monitoring = boo
+	$Sprite2D/sword_nair.monitoring = boo
+	$Sprite2D/sword_dair.monitoring = boo
+	$Sprite2D/sword_heavy_neutral.monitoring = boo
+	$Sprite2D/sword_heavy_side.monitoring = boo
+	$Sprite2D/sword_heavy_down.monitoring = boo
+
 func attack(heavy : bool) -> void:
 	canAttack = false
 	currentState = PlayerState.Attack
+	
 	#nagyon utalom ezt az egeszet
 	#get attack type (neutral, side, down, air?)
 
@@ -585,10 +606,17 @@ func dash() -> void:
 	canDash = true
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	print("anim ended")
+
 	if anim_name in noAttackAnims:
 		return
 	allHurtboxesOff()
+
+	if hitSomething and anim_name == "sword_side_heavy":
+		print("side_heavy combo")
+		anim_player.play("sword_side_heavy2")
+		return
+		
+	
 	if hitSomething or attackType.contains("air"):
 		canMove = true
 		canAttack = true
@@ -660,9 +688,9 @@ func dair_hit(body: Node2D) -> void:
 	hit_opponent(body, attacks["sword_dair"])
 
 func clash():
+	print("klissi clash")
 	allHurtboxesOff()
 	var clashForce = attacks["clash"].force
-	print("clashing, state: "+ str(currentState))
 	hit(AttackData.new("clash",0,Vector2(clashForce.x * (1 if facingLeft else -1), clashForce.y), 0.2), strength, 0, 0, 0)
 	
 
@@ -689,11 +717,14 @@ func sword_heavy_neutral_hit(body: Node2D) -> void:
 
 
 func _on_sword_heavy_side_body_entered(body: Node2D) -> void:
-	
 	if body.is_in_group("player"+str(player_id)):
 		return
-	print("te budos cigany")
 	hitSomething = true
+	if finisher:
+		hit_opponent(body, attacks["sword_heavy_side2"])
+	else:
+		hit_opponent(body, attacks["sword_heavy_side1"])
+	"""
 	hitCount +=1
 	if finisher:
 		hit_opponent(body, attacks["sword_heavy_side2"])
@@ -705,6 +736,8 @@ func _on_sword_heavy_side_body_entered(body: Node2D) -> void:
 		facingLeft = not facingLeft
 		finisher = true
 		next = false
+	"""
+
 
 
 func _on_dodge_body_entered(body: Node2D) -> void:
@@ -724,3 +757,4 @@ func _on_sword_heavy_down_body_entered(body: Node2D) -> void:
 		hit_opponent(body, attacks["sword_heavy_down2"])
 	else:
 		hit_opponent(body, attacks["sword_heavy_down1"])
+	

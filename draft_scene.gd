@@ -37,5 +37,6 @@ func _on_mutator_selected(mutator : Mutator):
 	else:
 		Szorp.p2mutators.append(mutator)
 		Szorp.loser = 1
-		if Szorp.p2mutators.size() >=4:
-			get_tree().change_scene_to_file("res://platform.tscn")
+		if Szorp.p2mutators.size() >= Szorp.starterPowerUps:
+			Szorp.next_round()
+	$MarginContainer/VBoxContainer/player.text = "Player " + str(Szorp.loser) + "'s choice!"
