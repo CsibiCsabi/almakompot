@@ -1,0 +1,77 @@
+[gd_scene load_steps=6 format=3 uid="uid://l6n6iuqmfhdi"]
+
+[ext_resource type="Script" uid="uid://ceqhskpx0jdch" path="res://UI/select_mutator.gd" id="1_faxou"]
+[ext_resource type="PackedScene" uid="uid://dpk5is3ypty8h" path="res://UI/mutator_card.tscn" id="2_se8t4"]
+
+[sub_resource type="Gradient" id="Gradient_se8t4"]
+offsets = PackedFloat32Array(0, 0.5576923, 1)
+colors = PackedColorArray(0, 0.08082372, 0.2790272, 1, 0, 0.2995689, 0.39247435, 1, 0, 0.28009632, 0.23223352, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_govpp"]
+gradient = SubResource("Gradient_se8t4")
+fill_from = Vector2(0.30769232, 0.02991453)
+fill_to = Vector2(0.60683763, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_se8t4"]
+font_size = 32
+
+[node name="select_mutator" type="Control"]
+custom_minimum_size = Vector2(1000, 500)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_faxou")
+mutator_card_scene = ExtResource("2_se8t4")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_govpp")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+custom_minimum_size = Vector2(0, 600)
+layout_mode = 2
+theme_override_constants/separation = 32
+alignment = 1
+
+[node name="player" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Player X's choice!"
+label_settings = SubResource("LabelSettings_se8t4")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+theme_override_constants/separation = 24
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 18
+text = "How will you mutate your game?"
+horizontal_alignment = 1
+vertical_alignment = 2

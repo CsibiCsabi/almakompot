@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://bvx0t0uguin2f"]
+
+[ext_resource type="PackedScene" uid="uid://e02vyvxbywxl" path="res://maps/things/one_way_platform.tscn" id="1_i1k61"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i12de"]
+size = Vector2(95.25264, 90.57291)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mvodh"]
+size = Vector2(400, 51.161163)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="one_way" parent="." instance=ExtResource("1_i1k61")]
+position = Vector2(342, 519)
+
+[node name="one_way3" parent="." instance=ExtResource("1_i1k61")]
+position = Vector2(342, 416)
+
+[node name="floor1" type="StaticBody2D" parent="."]
+position = Vector2(124, 479)
+scale = Vector2(0.41012534, 8.065751)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor1"]
+position = Vector2(199.93887, 25.354115)
+scale = Vector2(4.198075, -0.559861)
+shape = SubResource("RectangleShape2D_i12de")
+
+[node name="ColorRect" type="ColorRect" parent="floor1"]
+custom_minimum_size = Vector2(51, 0)
+offset_right = 400.0
+offset_bottom = 50.0
+pivot_offset = Vector2(200, 25)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.101960786, 0.2901961, 0.2901961, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="floor2" type="StaticBody2D" parent="."]
+position = Vector2(809, 480.00003)
+scale = Vector2(0.42633408, 7.688176)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="floor2"]
+position = Vector2(200.29858, 25.580574)
+shape = SubResource("RectangleShape2D_mvodh")
+
+[node name="ColorRect" type="ColorRect" parent="floor2"]
+custom_minimum_size = Vector2(51, 0)
+offset_right = 400.0
+offset_bottom = 50.0
+pivot_offset = Vector2(200, 25)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.101960786, 0.2901961, 0.2901961, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="player1position" type="Marker2D" parent="."]
+position = Vector2(159, 434)
+
+[node name="player2position" type="Marker2D" parent="."]
+position = Vector2(944, 429)

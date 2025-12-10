@@ -90,6 +90,12 @@ func add_built_in_mutators():
 			print("majomparade")
 			)
 	all_mutators[mutator.name] = mutator
+	# +1 jump
+	mutator = Mutator.new("+1 jump", "+1 jump", "Boing!", rarity.uncommon, func(player):
+			player.maxJumps += 1
+			)
+	all_mutators[mutator.name] = mutator
+	
 	
 	
 	

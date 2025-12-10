@@ -1,0 +1,37 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfgt55c0qlyv2"]
+
+[ext_resource type="Script" uid="uid://cbva4rlbp2k7m" path="res://UI/end_screen.gd" id="1_my301"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_abjgy"]
+font_size = 40
+
+[node name="end_screen" type="CanvasLayer"]
+script = ExtResource("1_my301")
+
+[node name="text" type="Label" parent="."]
+offset_left = 483.0
+offset_top = 149.0
+offset_right = 595.0
+offset_bottom = 204.0
+text = "Player x has won!"
+label_settings = SubResource("LabelSettings_abjgy")
+
+[node name="restart" type="Button" parent="."]
+offset_left = 584.0
+offset_top = 327.0
+offset_right = 664.0
+offset_bottom = 358.0
+scale = Vector2(1.72, 1.72)
+text = "RESTART!"
+
+[node name="menu" type="Button" parent="."]
+offset_left = 589.0
+offset_top = 397.0
+offset_right = 669.0
+offset_bottom = 428.0
+scale = Vector2(1.72, 1.72)
+text = "Menu
+"
+
+[connection signal="pressed" from="restart" to="." method="_on_restart_pressed"]
+[connection signal="pressed" from="menu" to="." method="_on_menu_pressed"]

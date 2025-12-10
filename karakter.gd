@@ -3,6 +3,7 @@ extends CharacterBody2D
 func _ready() -> void:
 	change_state(PlayerState.Idle, "idle")
 	add_to_group("player"+str(player_id))
+	label.text = "Player "+str(player_id)+" HP: "+str(hp)
 	inputBuffers = {
 	("p"+str(player_id)+"attack") : 0.0,
 	("p"+str(player_id)+"dash") : 0.0,
@@ -11,7 +12,6 @@ func _ready() -> void:
 	}
 	#controllers
 	var controllers = Input.get_connected_joypads()
-
 	if controllers.size() >= player_id:
 		controller_id = controllers[player_id-1] 
 		usingController = true
@@ -26,6 +26,7 @@ func _ready() -> void:
 		color = Szorp.p1color
 		apply_mutators(Szorp.p1mutators)
 	else:
+		$CanvasLayer/Label.global_position.y += 40
 		color = Szorp.p2color
 		apply_mutators(Szorp.p2mutators)
 	mySpeed = speed
@@ -45,8 +46,8 @@ func _ready() -> void:
 		"sword_heavy_down2" : AttackData.new("sword_heavy_down2", 1.7, Vector2(-500,-100), 0.5),
 	}
 
-var noMultiplierAttacks = ["sword_down", "sword_heavy_neutral1", "sword_heavy_side1" ]
-var stunExceptionAttacks = ["sword_down", "sword_dair"]
+var noMultiplierAttacks = ["sword_down", "sword_heavy_neutral1", "sword_heavy_side1", "spike" ]
+var stunExceptionAttacks = ["sword_down", "sword_dair", "spike"]
 
 
 var strength : float = 10
@@ -94,12 +95,15 @@ var controller_id = -1
 var contiDeadzone = 0.3
 
 #dash
+var dashTimer = 0.0
 var canDash = true
-var horizontalDashForce = 600
+var horizontalDashForce = 500
 var verticalDashForce = 300
-var dashCooldown = 0.8
+var dashCooldown = 1
 var horizontal
 var vertical
+var verticalSzorzo = 1
+var horizontalSzorzo = 1
 # weaponing
 var weapon = "sword"
 var attackType
@@ -158,6 +162,10 @@ var knock_back_timer = 0
 var trampoline_force = Vector2(0,0)
 
 var down = false # fast fallhoz
+
+@onready var floor_raycasts = [$RayCast2D, $RayCast2D2]
+
+var on_floor = true
 
 func apply_map_mutator(mutator : Mutator):
 	mutator.on_apply.call(self)
@@ -242,6 +250,10 @@ func apply_poison(dmg : float):
 	return
 
 func _physics_process(delta: float) -> void:
+	if dashTimer > 0:
+		dashTimer -= delta
+		if dashTimer < 0:
+			canDash = true
 	if one_way_timer >= 0:
 		one_way_timer -= delta
 		if one_way_timer < 0:
@@ -279,14 +291,33 @@ func _physics_process(delta: float) -> void:
 			if inputBuffers[key] > 0:
 				inputBuffers[key] -= delta
 		
+		var on_one_way_floor = false
+		for ray in floor_raycasts: 
+			if ray.is_colliding():
+				print("collideeee")
+			if ray.is_colliding() and velocity.y >= 0:
+				print("colliding")
+				var collider = ray.get_collider()
+				if collider and collider.is_in_group("one_way_platforms"):
+					print("one_way")
+					on_one_way_floor = true 
+		
+		if on_one_way_floor:
+			print("on one way floor")
+		on_floor = on_one_way_floor or is_on_floor()
+		 
 		# Add the gravity.
 		if not is_on_floor() and currentState != PlayerState.Dash:
 			velocity += get_gravity() * delta * gravityMultiplier * (2 if down else 1)
 
-
-		if is_on_floor():
+		
+		if on_floor:
+			$legs.disabled = false
 			jumpCount = 0
 			nairCount = 0
+		else:
+			$legs.disabled = true
+			
 		# Handle jump.
 		if inputBuffers["p"+str(player_id)+"jump"] > 0 and jumpCount < maxJumps and currentState != PlayerState.Attack:
 			inputBuffers["p"+str(player_id)+"jump"] = 0
@@ -342,6 +373,10 @@ func allHurtboxesOff():
 func die():
 	Szorp.i_lost(player_id)
 	queue_free()
+
+func spike_hit():
+	hit(AttackData.new("spike", 0.5, Vector2(0,-500), 0.3), 10,0,0,0)
+	return
 
 func hit(data : AttackData, _str : int, _poison : float, _stinger : int, _slow : int)->void:
 	hitCount = 0
@@ -539,7 +574,7 @@ func attack(heavy : bool) -> void:
 			else:
 				attackType = "nair"
 	if attackType == "nair":
-		if nairCount >= 2:
+		if nairCount >= maxNairs:
 			canMove = true
 			canAttack = true
 			change_state(PlayerState.Jump, "jump")
@@ -563,16 +598,16 @@ func attacking()->void:
 				velocity.y = -200
 
 
-
 func dash_move()->void:
-	velocity.x = horizontal * horizontalDashForce
-	velocity.y = vertical * verticalDashForce
+	velocity.x = horizontal * horizontalDashForce * horizontalSzorzo
+	velocity.y = vertical * verticalDashForce * verticalSzorzo
 
 func dash() -> void:
 	canDash = false
 	canMove = false
 	hurtable = false
 	change_state(PlayerState.Dash, "dash")
+	dashTimer = dashCooldown * (1.2 if not is_on_floor() else 1)
 	
 	if usingController:
 		horizontal = (1 if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_X) > contiDeadzone else 0) + (-1 if Input.get_joy_axis(controller_id, JOY_AXIS_LEFT_X) < (-1*contiDeadzone) else 0)
@@ -588,8 +623,13 @@ func dash() -> void:
 	var supper = 0
 	if horizontal == 0 and vertical == 0:
 		supper = 0.1
-	velocity.x = (horizontal * horizontalDashForce)
-	velocity.y = (vertical * verticalDashForce)
+	
+	verticalSzorzo = 1.2 if horizontal == 0 and is_on_floor() else 1
+	horizontalSzorzo = 1.2 if vertical == 0 and is_on_floor() else 1
+	
+	
+	velocity.x = (horizontal * horizontalDashForce * horizontalSzorzo)
+	velocity.y = vertical * verticalDashForce *verticalSzorzo
 	dashVertical = vertical
 	dashHorizontal = horizontal
 	
@@ -602,8 +642,7 @@ func dash() -> void:
 		change_state(PlayerState.Run, "run")
 	else:
 		change_state(PlayerState.Jump, "jump")
-	await get_tree().create_timer(dashCooldown).timeout
-	canDash = true
+	
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
@@ -757,4 +796,6 @@ func _on_sword_heavy_down_body_entered(body: Node2D) -> void:
 		hit_opponent(body, attacks["sword_heavy_down2"])
 	else:
 		hit_opponent(body, attacks["sword_heavy_down1"])
-	
+		
+#PARKOUR
+#mi a gyasz

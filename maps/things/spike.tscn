@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://dob5s4wxpt0px"]
+
+[ext_resource type="Script" uid="uid://vl7fhj3hnaxx" path="res://spike.gd" id="1_ohv8j"]
+
+[sub_resource type="ConvexPolygonShape2D" id="ConvexPolygonShape2D_0pia3"]
+points = PackedVector2Array(25, -25, 50, 0, 50, 50, 0, 50, 0, 0)
+
+[node name="spike" type="Area2D"]
+script = ExtResource("1_ohv8j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-24, 25)
+shape = SubResource("ConvexPolygonShape2D_0pia3")
+
+[node name="ColorRect" type="ColorRect" parent="CollisionShape2D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 50.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.21176471, 0, 0.05882353, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="CollisionShape2D"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 25.0
+offset_top = -25.0
+offset_right = 60.0
+offset_bottom = 10.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.7853982
+color = Color(0.21176471, 0, 0.05882353, 1)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

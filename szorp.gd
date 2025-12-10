@@ -14,6 +14,9 @@ var round = 0
 var rounds = 5
 var starterPowerUps = 0
 var roundEndMutators = true
+var level = 0
+var finish_time = 0
+
 #COLLISION LAYERS: 
 #1 - p1 
 #2 - p2
@@ -22,17 +25,19 @@ var roundEndMutators = true
 
 #map valasztashoz
 var map_paths = [
-	"res://maps/map1.tscn",
-	"res://maps/map2.tscn",
-	"res://maps/map3.tscn",
-	"res://maps/trampoline_map_1.tscn",
-	"res://maps/trampoline_map_2.tscn"
+	"res://maps/showdown_maps/map1.tscn",
+	"res://maps/showdown_maps/map2.tscn",
+	"res://maps/showdown_maps/map3.tscn",
+	"res://maps/showdown_maps/trampoline_map_1.tscn",
+	"res://maps/showdown_maps/trampoline_map_2.tscn",
+	"res://maps/showdown_maps/trampoline_map_3.tscn",
+	"res://maps/showdown_maps/spike_map_1.tscn"
 ]
 
 
 #mutatorhoz
 enum Rarity {common, uncommon, rare}
-enum Gamemode {classic, draft, infected, custom}
+enum Gamemode {classic, draft, infected, custom, parkour}
 var chosen_gamemode : Gamemode
 var customInfected = false
 
@@ -61,7 +66,7 @@ func newGame():
 			roundEndMutators = true
 
 	if starterPowerUps > 0:
-		get_tree().change_scene_to_file("res://draft_scene.tscn")
+		get_tree().change_scene_to_file("res://UI/draft_scene.tscn")
 	else:
 		next_round()
 		
@@ -91,13 +96,13 @@ func i_lost(_loser : int):
 	if p1points >= (rounds/2+1) or p2points >= (rounds/2+1):
 		#end game stuff
 		end_game_stuff()
-		get_tree().change_scene_to_file("res://end_screen.tscn")
+		get_tree().change_scene_to_file("res://UI/end_screen.tscn")
 		return
 	
 	if roundEndMutators:
-		get_tree().change_scene_to_file("res://select_mutator.tscn")
+		get_tree().change_scene_to_file("res://UI/select_mutator.tscn")
 	else:
-		get_tree().change_scene_to_file("res://end_round.tscn")
+		get_tree().change_scene_to_file("res://UI/end_round.tscn")
 
 
 

@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://7bodx4l5w5qo"]
+
+[ext_resource type="PackedScene" uid="uid://6n8hlay5txkb" path="res://maps/things/plat.tscn" id="1_wjpr2"]
+[ext_resource type="PackedScene" uid="uid://d1hsl4qfxgqm5" path="res://maps/things/trampoline.tscn" id="2_y3tt3"]
+
+[node name="trampoline_map1" type="Node2D"]
+
+[node name="StaticBody2D" parent="." instance=ExtResource("1_wjpr2")]
+position = Vector2(351, 477)
+scale = Vector2(0.62669194, 3.4290204)
+
+[node name="trampoline" parent="." instance=ExtResource("2_y3tt3")]
+position = Vector2(245, 550)
+rotation = 0.27354982
+
+[node name="trampoline2" parent="." instance=ExtResource("2_y3tt3")]
+position = Vector2(950, 550)
+rotation = -0.27401668
+
+[node name="player1position" type="Marker2D" parent="."]
+position = Vector2(394, 429)
+
+[node name="player2position" type="Marker2D" parent="."]
+position = Vector2(797, 434)

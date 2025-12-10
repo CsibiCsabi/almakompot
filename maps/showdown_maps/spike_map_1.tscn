@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://rddpluat3m2y"]
+
+[ext_resource type="PackedScene" uid="uid://dob5s4wxpt0px" path="res://maps/things/spike.tscn" id="1_d1uvo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bpdte"]
+size = Vector2(800, 50)
+
+[node name="SpikeMap1" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(156, 523)
+scale = Vector2(0.16000003, 1)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(400, 25)
+shape = SubResource("RectangleShape2D_bpdte")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_right = 800.0
+offset_bottom = 50.0
+color = Color(0.101960786, 0.2901961, 0.2901961, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(546, 523)
+scale = Vector2(0.16000003, 1)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(400, 25)
+shape = SubResource("RectangleShape2D_bpdte")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D2"]
+offset_right = 800.0
+offset_bottom = 50.0
+color = Color(0.101960786, 0.2901961, 0.2901961, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="player1position" type="Marker2D" parent="."]
+position = Vector2(217, 466)
+
+[node name="player2position" type="Marker2D" parent="."]
+position = Vector2(632, 466)
+
+[node name="spike" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(297, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike2" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(323, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike3" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(349, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike4" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(375, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike5" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(401, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike6" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(427, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike7" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(453, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike8" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(479, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike9" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(505, 535)
+scale = Vector2(0.5, 0.5)
+
+[node name="spike10" parent="." instance=ExtResource("1_d1uvo")]
+position = Vector2(531, 535)
+scale = Vector2(0.5, 0.5)

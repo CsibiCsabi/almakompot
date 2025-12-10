@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://xonf1jr1iexf"]
+
+[ext_resource type="Script" uid="uid://cr8gqst56xfgb" path="res://maps/parkour_maps/finish.gd" id="1_olqe8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y42pd"]
+size = Vector2(20, 80)
+
+[node name="finish_area" type="Area2D"]
+collision_layer = 32
+script = ExtResource("1_olqe8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_y42pd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -10.0
+offset_top = -40.0
+offset_right = 10.0
+offset_bottom = 40.0
+color = Color(0.17254902, 1, 0.37254903, 0.80784315)
+metadata/_edit_use_anchors_ = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

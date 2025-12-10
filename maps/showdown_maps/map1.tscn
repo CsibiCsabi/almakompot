@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7rnjyeww5lv0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0sjvc"]
+size = Vector2(800, 50)
+
+[node name="map1" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(153, 523)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(400, 25)
+shape = SubResource("RectangleShape2D_0sjvc")
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_right = 800.0
+offset_bottom = 50.0
+color = Color(0.101960786, 0.2901961, 0.2901961, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="player1position" type="Marker2D" parent="."]
+position = Vector2(217, 466)
+
+[node name="player2position" type="Marker2D" parent="."]
+position = Vector2(863, 466)

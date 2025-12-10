@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7vcv2g6dtcjb"]
+
+[ext_resource type="Script" uid="uid://b13rbmdciwy6u" path="res://maps/parkour_maps/map_finished.gd" id="1_rbbt0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_85ceg"]
+font_size = 38
+
+[sub_resource type="LabelSettings" id="LabelSettings_rbbt0"]
+font_size = 21
+
+[node name="MapFinished" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rbbt0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "Map Cleared!"
+label_settings = SubResource("LabelSettings_85ceg")
+horizontal_alignment = 1
+
+[node name="time" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+text = "your time"
+label_settings = SubResource("LabelSettings_rbbt0")
+horizontal_alignment = 1
+
+[node name="Next" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+text = "Next level"
+
+[node name="MainMenu" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+text = "Main Menu"
+
+[node name="Retry" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+text = "Retry"
+
+[connection signal="pressed" from="VBoxContainer/Next" to="." method="_on_next_pressed"]
+[connection signal="pressed" from="VBoxContainer/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="VBoxContainer/Retry" to="." method="_on_retry_pressed"]

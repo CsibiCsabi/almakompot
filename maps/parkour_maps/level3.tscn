@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcl4b7y1er6ly"]
+
+[ext_resource type="Script" uid="uid://b1qy6y717h07w" path="res://maps/parkour_maps/level.gd" id="1_wyjp1"]
+[ext_resource type="PackedScene" uid="uid://6n8hlay5txkb" path="res://maps/things/plat.tscn" id="2_gsr44"]
+[ext_resource type="PackedScene" uid="uid://xonf1jr1iexf" path="res://maps/parkour_maps/finish.tscn" id="3_u7poc"]
+[ext_resource type="PackedScene" uid="uid://b8lqnbfmd3ufp" path="res://maps/things/death_zone.tscn" id="4_ensln"]
+
+[node name="Level3" type="Node2D"]
+script = ExtResource("1_wyjp1")
+max_jumps = 1
+
+[node name="StaticBody2D" parent="." instance=ExtResource("2_gsr44")]
+position = Vector2(474, 376)
+scale = Vector2(0.52709484, 0.27754244)
+
+[node name="StaticBody2D2" parent="." instance=ExtResource("2_gsr44")]
+position = Vector2(-16, 526)
+scale = Vector2(0.098434865, 0.3839662)
+
+[node name="StaticBody2D3" parent="." instance=ExtResource("2_gsr44")]
+position = Vector2(264.00003, 474.00003)
+scale = Vector2(0.098434865, 0.3839662)
+
+[node name="player1position" type="Marker2D" parent="."]
+position = Vector2(2, 487)
+
+[node name="finish_area" parent="." instance=ExtResource("3_u7poc")]
+position = Vector2(973, 297.00003)
+scale = Vector2(4.927095, 0.27754244)
+
+[node name="DeathZone" parent="." instance=ExtResource("4_ensln")]
+position = Vector2(429, 602)
+scale = Vector2(195.16957, -1.6967328)
+
+[node name="DeathZone2" parent="." instance=ExtResource("4_ensln")]
+position = Vector2(734, 317)
+scale = Vector2(21.440002, 0.40000466)

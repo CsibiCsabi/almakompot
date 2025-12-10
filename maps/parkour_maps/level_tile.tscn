@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://cu4uvwoy7jmsa"]
+
+[ext_resource type="Theme" uid="uid://cwt5m33peqd3l" path="res://themes/uncommon_theme.tres" id="1_mxexb"]
+[ext_resource type="Script" uid="uid://bxadlkr55sx2k" path="res://maps/parkour_maps/level_tile.gd" id="1_w7dhp"]
+
+[node name="LevelTile" type="Control"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 60.0
+offset_bottom = 60.0
+script = ExtResource("1_w7dhp")
+
+[node name="Button" type="Button" parent="."]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+theme = ExtResource("1_mxexb")
+theme_override_colors/font_color = Color(0.16078432, 0.5882353, 0.8117647, 1)
+theme_override_font_sizes/font_size = 35
+text = "1"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,0 +1,125 @@
+[gd_scene load_steps=7 format=3 uid="uid://8720uhkvvnqh"]
+
+[ext_resource type="Script" uid="uid://0f0lrcokqpci" path="res://UI/choose_character.gd" id="1_qjxgw"]
+[ext_resource type="Theme" uid="uid://casn4am21hdpi" path="res://themes/buttonThemes/basic_button.tres" id="2_qm17r"]
+[ext_resource type="Texture2D" uid="uid://d0lnbvaxgmnf" path="res://anims/idle/char_idle1.png" id="2_w00km"]
+[ext_resource type="Script" uid="uid://w723bid87bpp" path="res://preview.gd" id="3_fj7td"]
+[ext_resource type="Theme" uid="uid://cti7blchf5c0b" path="res://themes/buttonThemes/color_button.tres" id="4_g528i"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fj7td"]
+font_size = 30
+
+[node name="choose_character" type="CanvasLayer"]
+script = ExtResource("1_qjxgw")
+
+[node name="Button" type="Button" parent="."]
+modulate = Color(0.54901963, 0.74509805, 0.78431374, 1)
+offset_left = 534.0
+offset_top = 506.0
+offset_right = 595.0
+offset_bottom = 537.0
+theme = ExtResource("2_qm17r")
+text = "BEGIN!"
+
+[node name="Label" type="Label" parent="."]
+offset_left = 487.0
+offset_top = 26.0
+offset_right = 662.0
+offset_bottom = 68.0
+text = "Select color:"
+label_settings = SubResource("LabelSettings_fj7td")
+
+[node name="preview1" type="Sprite2D" parent="."]
+position = Vector2(359, 249)
+scale = Vector2(2, 2)
+texture = ExtResource("2_w00km")
+script = ExtResource("3_fj7td")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="preview1"]
+offset_left = -46.0
+offset_top = 38.0
+offset_right = 148.0
+offset_bottom = 69.0
+scale = Vector2(0.545, 0.545)
+
+[node name="white" type="Button" parent="preview1/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme = ExtResource("4_g528i")
+
+[node name="red" type="Button" parent="preview1/HBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("4_g528i")
+
+[node name="blue" type="Button" parent="preview1/HBoxContainer"]
+modulate = Color(0.011764706, 0.007843138, 0.4509804, 1)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme = ExtResource("4_g528i")
+
+[node name="green" type="Button" parent="preview1/HBoxContainer"]
+modulate = Color(0, 0.60784316, 0.3882353, 1)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme = ExtResource("4_g528i")
+
+[node name="preview2" type="Sprite2D" parent="."]
+position = Vector2(741, 249)
+scale = Vector2(2, 2)
+texture = ExtResource("2_w00km")
+script = ExtResource("3_fj7td")
+player_id = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="preview2"]
+offset_left = -46.0
+offset_top = 38.0
+offset_right = 148.0
+offset_bottom = 69.0
+scale = Vector2(0.545, 0.545)
+
+[node name="white" type="Button" parent="preview2/HBoxContainer"]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme = ExtResource("4_g528i")
+
+[node name="red" type="Button" parent="preview2/HBoxContainer"]
+modulate = Color(1, 0, 0, 1)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 0
+theme = ExtResource("4_g528i")
+
+[node name="blue" type="Button" parent="preview2/HBoxContainer"]
+modulate = Color(0.011764706, 0.007843138, 0.4509804, 1)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme = ExtResource("4_g528i")
+
+[node name="green" type="Button" parent="preview2/HBoxContainer"]
+modulate = Color(0, 0.60784316, 0.3882353, 1)
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+theme = ExtResource("4_g528i")
+
+[node name="back" type="Button" parent="."]
+modulate = Color(0.41568628, 0.41568628, 0.41568628, 1)
+offset_left = 12.0
+offset_top = 604.0
+offset_right = 57.0
+offset_bottom = 635.0
+theme = ExtResource("2_qm17r")
+text = "Back"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="preview1/HBoxContainer/white" to="preview1" method="_on_white_pressed"]
+[connection signal="pressed" from="preview1/HBoxContainer/red" to="preview1" method="_on_red_pressed"]
+[connection signal="pressed" from="preview1/HBoxContainer/blue" to="preview1" method="_on_blue_pressed"]
+[connection signal="pressed" from="preview1/HBoxContainer/green" to="preview1" method="_on_green_pressed"]
+[connection signal="pressed" from="preview2/HBoxContainer/white" to="preview2" method="_on_white_pressed"]
+[connection signal="pressed" from="preview2/HBoxContainer/red" to="preview2" method="_on_red_pressed"]
+[connection signal="pressed" from="preview2/HBoxContainer/blue" to="preview2" method="_on_blue_pressed"]
+[connection signal="pressed" from="preview2/HBoxContainer/green" to="preview2" method="_on_green_pressed"]
+[connection signal="pressed" from="back" to="." method="_on_back_pressed"]

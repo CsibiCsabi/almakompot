@@ -1,0 +1,135 @@
+[gd_scene load_steps=8 format=3 uid="uid://cy87as3oqv0o6"]
+
+[ext_resource type="Script" uid="uid://bbdoilmuso8bk" path="res://maps/parkour_maps/level_loader.gd" id="1_jxldm"]
+[ext_resource type="PackedScene" uid="uid://csuwexyu5e6su" path="res://player.tscn" id="5_ah3s8"]
+[ext_resource type="Script" uid="uid://cypovvvsrcxab" path="res://UI/pause_menu.gd" id="79_e2o4p"]
+[ext_resource type="Theme" uid="uid://casn4am21hdpi" path="res://themes/buttonThemes/basic_button.tres" id="80_ike00"]
+[ext_resource type="Script" uid="uid://0r2hemkt0i7b" path="res://maps/parkour_maps/start_screen.gd" id="81_ike00"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_e2o4p"]
+font_size = 38
+
+[sub_resource type="LabelSettings" id="LabelSettings_ike00"]
+font_size = 26
+
+[node name="LevelLoader" type="Node2D"]
+script = ExtResource("1_jxldm")
+
+[node name="MapContainer" type="Node2D" parent="."]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PauseMenu" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("79_e2o4p")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.011764706, 0.011764706, 0.011764706, 0.7176471)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/PauseMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+text = "GAME PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resume" type="Button" parent="CanvasLayer/PauseMenu/VBoxContainer"]
+modulate = Color(0, 0.42745098, 0.5058824, 1)
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 10
+theme = ExtResource("80_ike00")
+text = "RESUME"
+
+[node name="MainMenu" type="Button" parent="CanvasLayer/PauseMenu/VBoxContainer"]
+modulate = Color(0.59065497, 0, 0, 1)
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 2
+theme = ExtResource("80_ike00")
+text = "LEAVE
+"
+
+[node name="StartScreen" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("81_ike00")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/StartScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.46666667)
+
+[node name="VboxContainer" type="VBoxContainer" parent="CanvasLayer/StartScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 23
+alignment = 1
+
+[node name="levelText" type="Label" parent="CanvasLayer/StartScreen/VboxContainer"]
+layout_mode = 2
+text = "asdf"
+label_settings = SubResource("LabelSettings_e2o4p")
+horizontal_alignment = 1
+
+[node name="jumps" type="Label" parent="CanvasLayer/StartScreen/VboxContainer"]
+layout_mode = 2
+text = "jumps"
+label_settings = SubResource("LabelSettings_ike00")
+horizontal_alignment = 1
+
+[node name="nairs" type="Label" parent="CanvasLayer/StartScreen/VboxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="Gravity" type="Label" parent="CanvasLayer/StartScreen/VboxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="p1" parent="." instance=ExtResource("5_ah3s8")]
+
+[node name="Camera2D" type="Camera2D" parent="p1"]
+limit_smoothed = true
+
+[connection signal="pressed" from="CanvasLayer/PauseMenu/VBoxContainer/Resume" to="CanvasLayer/PauseMenu" method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PauseMenu/VBoxContainer/MainMenu" to="CanvasLayer/PauseMenu" method="_on_main_menu_pressed"]
